@@ -14,9 +14,10 @@ class CreateInterestsTable extends Migration
     public function up()
     {
         Schema::create('interests', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('to')->unsigned();
-            $table->integer('from')->unsigned();
+            $table->uuid('id');
+            $table->primary('id');
+            $table->char('to', 36);
+            $table->char('from', 36);
             $table->tinyInteger('status'); // 0 = Pending, 1 = read, 2 = rejected
             $table->timestamps();
 

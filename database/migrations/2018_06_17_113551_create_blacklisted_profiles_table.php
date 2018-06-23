@@ -14,9 +14,10 @@ class CreateBlacklistedProfilesTable extends Migration
     public function up()
     {
         Schema::create('blacklisted_profiles', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('profile_id')->unsigned();
-            $table->integer('blacklist_id')->unsigned();
+            $table->uuid('id');
+            $table->primary('id');
+            $table->char('profile_id', 36);
+            $table->char('blacklist_id', 36);
             $table->boolean('message')->default(0);
             $table->boolean('interest')->default(0);
             $table->boolean('search')->default(0);

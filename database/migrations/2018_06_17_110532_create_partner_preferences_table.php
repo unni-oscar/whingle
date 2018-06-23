@@ -14,8 +14,9 @@ class CreatePartnerPreferencesTable extends Migration
     public function up()
     {
         Schema::create('partner_preferences', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('profile_id')->unsigned();
+            $table->uuid('id');
+            $table->primary('id');
+            $table->char('profile_id', 36);
             //TODO - need to complete
             $table->timestamps();
 

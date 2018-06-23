@@ -14,8 +14,9 @@ class CreateProfilesTable extends Migration
     public function up()
     {
         Schema::create('profiles', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user_id')->unsigned();
+            $table->uuid('id');
+            $table->primary('id');
+            $table->char('user_id', 36);
             // *************** Basic details *************** //
             $table->tinyInteger('created_by'); // created_by: 1 = Self, 2 = Parents/Guardian, 3 = Siblings, 4 = Friends, 5 = Relatives, 6 = Others
             $table->string('name');
@@ -25,9 +26,9 @@ class CreateProfilesTable extends Migration
             $table->boolean('has_children')->nullable(); // 1 = yes, 0 = No
             $table->text('about')->nullable();
             // *************** Religion / Astro details *************** //
-            $table->integer('mother_tongue_id');
-            $table->integer('religion');
-            $table->integer('caste');
+            $table->integer('mother_tongue_id')->nullable();
+            $table->integer('religion')->nullable();
+            $table->integer('caste')->nullable();
             $table->integer('star')->nullable();
             $table->integer('moon_sign')->nullable();
             $table->tinyInteger('manglik')->nullable(); // 1 = Yes, 0 = No, 3 = Don't know, 4 = Not applicable

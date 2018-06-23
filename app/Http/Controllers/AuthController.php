@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterAuthRequest;
+use App\Models\Profile;
 use App\Models\User;
+use App\Notifications\UserActivate;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\DB;
 use Mail;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -16,18 +19,44 @@ class AuthController extends Controller
 
     public function register(RegisterAuthRequest $request) {
         //new User()
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->user_group_id = config('api.user_group.user');
-        $user->activation_token = Uuid::generate(4);
-        $user->password = bcrypt($request->password);
-        $user->save();
+        DB::beginTransaction();
+        try {
+            $user = new User();
+            $user->short_id = strtoupper(base_convert(microtime(false), 10, 36));
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->user_group_id = config('api.user_group.user');
+            $user->activation_token = utf8_encode(Uuid::generate(4));
+            $user->password = bcrypt($request->password);
+            $user->save();
 
-        return response()->json([
-            'success' => true,
-            'data' => $user
-        ], 201);
+            $profile = new Profile();
+            $profile->name = "test";
+            $profile->user_id = $user->id;
+            $profile->created_by = 1;
+            $profile->dob = now();
+            $profile->marital_status = 1;
+            $profile->gender = 1;
+            $profile->save();
+            DB::commit();
+            $user->notify(new UserActivate());
+            //$this->notify(new UserActivate($user));
+            return response()->json([
+                'success' => true,
+                'message' => __('messages.registation-success'),
+                'data' => $user
+            ], 201);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'success' => false,
+                'message' => __('messages.registration-failed'),
+                //'data' => $user
+            ]);
+        }
+
+
+
     }
 
     public function login(Request $request) {

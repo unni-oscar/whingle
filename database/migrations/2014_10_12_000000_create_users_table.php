@@ -17,6 +17,7 @@ class CreateUsersTable extends Migration
             $table->engine = 'InnoDB';
 
             $table->uuid('id');
+            $table->char('short_id',12);
             $table->integer('user_group_id'); // 0 = normal user, 1 = managers, 2 = admin
             $table->string('name');
             $table->string('email');
