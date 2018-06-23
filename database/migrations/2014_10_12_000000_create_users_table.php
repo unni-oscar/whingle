@@ -16,7 +16,7 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
-            $table->increments('id');
+            $table->uuid('id');
             $table->integer('user_group_id'); // 0 = normal user, 1 = managers, 2 = admin
             $table->string('name');
             $table->string('email');
@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->string('status',25)->nullable(); // Pending / active / TODO
             $table->integer('subscription_id')->unsigned()->default(0); // 0 = Free Subscription
             $table->rememberToken();
+            $table->primary('id');
             $table->timestamps();
             $table->softDeletes();
         });

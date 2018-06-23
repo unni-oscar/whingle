@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Mail;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Webpatser\Uuid\Uuid;
 
 class AuthController extends Controller
 {
@@ -18,7 +19,8 @@ class AuthController extends Controller
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->user_group_id = config('api.user_group.user') ;
+        $user->user_group_id = config('api.user_group.user');
+        $user->activation_token = Uuid::generate(4);
         $user->password = bcrypt($request->password);
         $user->save();
 
@@ -29,6 +31,7 @@ class AuthController extends Controller
     }
 
     public function login(Request $request) {
+
         $input = $request->only('email', 'password');
         $jwt_token = null;
 
