@@ -6,7 +6,10 @@
  */
 
 require('./bootstrap');
-
+import store from './store'
+import router from './routes'
+import App from './AppComponent'
+// import './../node_modules/bootstrap/dist/css/bootstrap.min.css';
 window.Vue = require('vue');
 
 /**
@@ -15,8 +18,12 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
+
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    store,
+    router,
+    components: { App },
+    template: '<App/>'
 });
