@@ -39,7 +39,7 @@ Route::group(['middleware' => 'auth.jwt'], function () {
     Route::get('logout', 'AuthController@logout');
 
 
-    Route::get('user', 'AuthController@getAuthUser');
+    Route::post('check', 'AuthController@check');
 
     Route::get('products', 'ProductController@index');
     Route::get('products/{id}', 'ProductController@show');

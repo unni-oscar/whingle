@@ -2,23 +2,24 @@
     <!-- Sidebar Column -->
     <div class="col-lg-3 mb-4">
         <div class="list-group">
-        <router-link class="nav-link" v-bind:to="'/user/profile'">Profile</router-link> 
-        <a href="about.html" class="list-group-item">About</a>
-        <a href="services.html" class="list-group-item">Services</a>
-        <a href="contact.html" class="list-group-item">Contact</a>
-        <a href="portfolio-1-col.html" class="list-group-item">1 Column Portfolio</a>
-        <a href="portfolio-2-col.html" class="list-group-item">2 Column Portfolio</a>
-        <a href="portfolio-3-col.html" class="list-group-item">3 Column Portfolio</a>
-        <a href="portfolio-4-col.html" class="list-group-item">4 Column Portfolio</a>
-        <a href="portfolio-item.html" class="list-group-item">Single Portfolio Item</a>
-        <a href="blog-home-1.html" class="list-group-item">Blog Home 1</a>
-        <a href="blog-home-2.html" class="list-group-item">Blog Home 2</a>
-        <a href="blog-post.html" class="list-group-item">Blog Post</a>
-        <a href="full-width.html" class="list-group-item">Full Width Page</a>
-        <a href="sidebar.html" class="list-group-item active">Sidebar Page</a>
-        <a href="faq.html" class="list-group-item">FAQ</a>
-        <a href="404.html" class="list-group-item">404</a>
-        <a href="pricing.html" class="list-group-item">Pricing Table</a>
+        <router-link class="list-group-item" v-bind:to="'/user/profile'">Profile</router-link> 
+        <router-link class="list-group-item" v-bind:to="'/user/search'">Search</router-link></router-link> 
+
+        <router-link class="list-group-item" v-bind:to="'/user/profile'">Messages</router-link> 
+        <router-link class="list-group-item" v-bind:to="'/user/change-password'">Favourites</router-link>
+        <router-link class="list-group-item" v-bind:to="'/user/search'">Interests</router-link></router-link> 
+
+        <router-link class="list-group-item" v-bind:to="'/user/profile'">Photos</router-link> 
+        <router-link class="list-group-item" v-bind:to="'/user/change-password'"> Preference</router-link>
+        <router-link class="list-group-item" v-bind:to="'/user/search'">Profile Visits</router-link></router-link> 
+        
+        <router-link class="list-group-item" v-bind:to="'/user/profile'">Payment History</router-link> 
+        <router-link class="list-group-item" v-bind:to="'/user/change-password'">Subscription</router-link>
+        <router-link class="list-group-item" v-bind:to="'/user/search'">Blacklist</router-link></router-link> 
+        <router-link class="list-group-item" v-bind:to="'/user/change-password'">Change Password</router-link>
+      
+        <router-link class="list-group-item" v-bind:to="'/user/search'">Security Settings</router-link></router-link> 
+        <router-link class="list-group-item" v-bind:to="'/user/search'">Logout</router-link></router-link> 
         </div>
     </div>
 </template>

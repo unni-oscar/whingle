@@ -54,47 +54,59 @@ class AuthController extends Controller
                 //'data' => $user
             ]);
         }
-
-
-
     }
 
     public function login(Request $request) {
-
         $input = $request->only('email', 'password');
         $jwt_token = null;
 
         if (!$jwt_token = JWTAuth::attempt($input)) {
             return response()->json([
-                'success' => false,
+                'status' => 'error',
                 'message' => __('messages.invalid-credentials'),
             ], 401);
         }
 
         return response()->json([
-            'success' => true,
+            'status' => 'success',
             'token' => $jwt_token,
         ]);
     }
-
-    public function logout(Request $request) {
-        $this->validate($request, [
-            'token' => 'required'
-        ]);
-
+    
+    public function logout() {
         try {
-            JWTAuth::invalidate($request->token);
+            $token = JWTAuth::getToken();
 
+            if ($token) {
+                JWTAuth::invalidate($token);
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'User logged out successfully'
+                ], 200);
+            } 
+        } catch (JWTException $e) {
             return response()->json([
-                'success' => true,
-                'message' => 'User logged out successfully'
-            ]);
-        } catch (JWTException $exception) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Sorry, the user cannot be logged out'
-            ], 500);
+                    'status' => 'error',
+                    'message' => 'Sorry, the user could not be logged out'
+                ], 500);
         }
+    }
+
+    public function check()
+    {
+        try {
+            JWTAuth::parseToken()->authenticate();
+        } catch (JWTException $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Token is invalid'
+            ], 401);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'User authenticated'
+        ], 200);
     }
 
     public function getAuthUser(Request $request) {

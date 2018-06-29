@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import helper from './components/services/helper'
+import store from './store.js'
 // import HelloWorld from '@/components/HelloWorld'
 // import Dashboard from '../components/Dashboard'
 // import About from '../components/About'
@@ -14,16 +16,14 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-export default new Router({
-  mode: 'history', // Remove # from the url
-  routes: [
+let routes = [
     {
-      path: '/',
-      name: 'Homepage',
-      component: require('./components/pages/Homepage'),
-      meta: {
-        requiresAuth: false
-      }
+        path: '/',
+        name: 'Homepage',
+        component: require('./components/pages/Homepage'),
+        meta: {
+            requiresAuth: false
+        }
     },
     {
         path: '/about',
@@ -44,20 +44,38 @@ export default new Router({
         props: { bcName: "Packages" }
     },
     {
+        path: '/user/login',
+        name: 'Login',
+        component: require('./components/pages/Login'),
+        meta: {
+          requiresAuth: false
+        }
+    },
+    {
+        path: '/user/register',
+        name: 'Register',
+        component: require('./components/pages/Register'),
+        meta: {
+          requiresAuth: false
+        }
+    },
+    {
         path: '/user',
        // redirect: '/user/dashboard',
         name: 'Dashboard',
-        component: require('./components/pages/Dashboard'),
+        components: {
+            default: require('./components/pages/Dashboard')
+        },
         meta: {
-          requiresAuth: false
+          requiresAuth: true
         },
         props: { bcName: "Dashboard" },
         children: [
             {
                 path: '',
-                name: 'ChangePassword',
+                name: 'UserIndex',
                 components: {
-                    mainarea: require('./components/pages/ChangePassword'),
+                    mainarea: require('./components/elements/UserIndex'),
                 }
             },
             {
@@ -66,59 +84,47 @@ export default new Router({
                 components: {
                     mainarea: require('./components/pages/Profile'),
                 }
+            },
+            {
+                path: 'change-password',
+                name: 'ChangePassword',
+                components: {
+                    mainarea: require('./components/pages/ChangePassword'),
+                }
+            },
+            {
+                path: 'search',
+                name: 'Search',
+                components: {
+                    mainarea: require('./components/elements/Search'),
+                }
             }
             
         ]
-    },
-    // {
-    //   path: '/user',
-    //   name: 'Dashboard',
-    //   component: Dashboard,
-    //   meta: {
-    //     requiresAuth: true
-    //   },
-    //   children: [
-    //     {
-    //       path: 'profile',
-    //       name: 'Profile',
-    //       components: {
-    //         mainarea: Profile
-    //       }
-    //     },
-    //     {
-    //       path: 'change-password',
-    //       name: 'ChangePassword',
-    //       components: {
-    //         mainarea: ChangePassword
-    //       }
-    //     }
-    //   ]
-    // },
-    // {
-    //   path: '/contact',
-    //   name: 'Contact',
-    //   component: Contact
-    // },
-    // {
-    //   path: '/about',
-    //   name: 'About',
-    //   component: About
-    // },
-    // {
-    //   path: '/login',
-    //   name: 'Login',
-    //   component: Login
-    // },
-    // {
-    //   path: '/register',
-    //   name: 'Register',
-    //   component: Register
-    // },
-    // {
-    //   path: '/register-success',
-    //   name: 'RegisterSuccess',
-    //   component: RegisterSuccess
-    // },
-    // { path: '*', name: 'PageNotFound', component: PageNotFound }
-  ]
+    }
+]
+const router =  new Router({
+  mode: 'history', // To remove # from the url
+  routes,
+  linkActiveClass: 'active'
 })
+
+
+/**
+ *  Handling each route to check whether its requre login
+ */
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(m => m.meta.requiresAuth)){
+        return helper.check().then(response => {
+
+            if(!response){
+                return next({ path : '/user/login?redirect=' + to.path})
+            } 
+            store.dispatch('setLogin')
+            return next()
+        })
+    } 
+    return next()
+});
+
+export default router;
