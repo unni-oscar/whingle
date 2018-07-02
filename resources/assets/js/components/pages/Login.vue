@@ -5,7 +5,7 @@
 <h1>Login</h1>
 <form @submit.prevent="validateBeforeSubmit" autocomplete="off" >
      <p class="text-danger" v-if="isAuthError">{{ isAuthError }}</p>
-     <p v-if="$route.query.redirect">
+     <p class="text-danger" v-if="$route.query.redirect">
       You need to login first.
     </p>
   <!-- <div class="form-group">

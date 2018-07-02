@@ -1,19 +1,28 @@
 
 <template>
-    <div class="container">
-        <label for="basic-dropdown">Basic dropdown:  {{selectedFruit}}</label>
-        <dropdown id="component-dropdown" :options="fruitOptions" v-model="selectedFruit" ></dropdown>
+    <div class="container">   
        <table>
-           <tr><td>Created by</td><td>{{profileForm.created_by}}</td></tr>
+           <tr>
+               <td>Created by</td>
+               <td><dropdown id="component-dropdown" :options="createdBy" v-model="profileForm.created_by" ></dropdown>
+</td>
+            </tr>
             <tr><td>Name</td><td>{{profileForm.name}}</td></tr>
             <tr><td>Date of Birth / Age</td><td>{{profileForm.dob}}</td></tr>
-            <tr><td>Sex</td><td>{{profileForm.gender}}</td></tr>
+            <tr><td>Gender</td><td>{{profileForm.gender}}</td></tr>
             <tr><td>Marital Status</td><td>{{profileForm.marital_status}}</td></tr>
             <tr><td>Has Children?</td><td>{{profileForm.has_children}}</td></tr>
             <tr><td>About</td><td>{{profileForm.about}}</td></tr>
 
-            <tr><td>Country Living</td><td>{{profileForm.country_living}}</td></tr>
-            <tr><td>State living</td><td>{{profileForm.state_living}}</td></tr>
+            <tr>
+                <td>Country Living</td>
+                <td><dropdown id="component-dropdown" :options="countries" v-model="selectedCountry" ></dropdown></td>
+                {{profileForm.country_living}}
+                </tr>
+            <tr>
+                <td>State living {{selectedState}}</td>
+                <td><dropdown id="component-dropdown" :options="states" v-model="selectedState" ></dropdown></td>
+            </tr>
             <tr><td>City Living</td><td>{{profileForm.city_living}}</td></tr>
             
             <tr><td>Mother Tongue</td><td>{{profileForm.mother_tongue_id}}</td></tr>
@@ -72,7 +81,13 @@ export default {
     },
     data: function() {
         return {
+            res: {},
             selectedFruit: '',
+            countries: {},
+            states:{},
+            selectedCountry: {},
+            selectedState: {},
+            createdBy : {},
             fruitOptions: {
                 '1': 'Apple',
                 '2': 'Banana',
@@ -132,52 +147,81 @@ export default {
         }
     },
     mounted(){
-        axios.get('/api/user/profile').then(response => response.data).then(response => {
-            console.log(response.profile)
-            this.profileForm.name = response.profile.name;
-            this.profileForm.dob = response.profile.dob;
-            this.profileForm.gender = response.profile.gender;
-            this.profileForm.about = response.profile.about;
-            this.profileForm.blood_group = response.profile.blood_group;
-            this.profileForm.brothers = response.profile.brothers;
-            this.profileForm.brothers_married = response.profile.brothers_married;
-            this.profileForm.build = response.profile.build;
-            this.profileForm.caste = response.profile.caste;
-            this.profileForm.city_living = response.profile.city_living;
-            this.profileForm.complexion = response.profile.complexion;
-            this.profileForm.contact_number = response.profile.contact_number;
-            this.profileForm.country_living = response.profile.country_living;
-            this.profileForm.created_by = response.profile.created_by;
-            this.profileForm.diet = response.profile.diet;
-            this.profileForm.disability = response.profile.disability;
-            this.profileForm.drink = response.profile.drink;
-            this.profileForm.education = response.profile.education;
-            this.profileForm.education_in = response.profile.education_in;
-            this.profileForm.family_status = response.profile.family_status;
-            this.profileForm.family_type = response.profile.family_type;
-            this.profileForm.family_values = response.profile.family_values;
-            this.profileForm.father = response.profile.father;
-            this.profileForm.gender = response.profile.gender;
-            this.profileForm.has_children = response.profile.has_children;
-            this.profileForm.height = response.profile.height;
-            this.profileForm.horoscope = response.profile.horoscope;
-            this.profileForm.income = response.profile.income;
-            this.profileForm.interests = response.profile.interests;
-            this.profileForm.job = response.profile.job;
-            this.profileForm.job_as = response.profile.job_as;
-            this.profileForm.manglik = response.profile.manglik;
-            this.profileForm.marital_status = response.profile.marital_status;
-            this.profileForm.moon_sign = response.profile.moon_sign;
-            this.profileForm.mother = response.profile.mother;
-            this.profileForm.mother_tongue_id = response.profile.mother_tongue_id;
-            this.profileForm.religion = response.profile.religion;
-            this.profileForm.sisters = response.profile.sisters;
-            this.profileForm.sisters_married = response.profile.sisters_married;
-            this.profileForm.smoke = response.profile.smoke;
-            this.profileForm.star = response.profile.star;
-            this.profileForm.state_living = response.profile.state_living;
-            this.profileForm.weight = response.profile.weight;
+        axios.get('/api/user/profile/edit').then(response => response.data).then(response => {
+            this.res = response.profile
+            //console.log(this.res)
+            this.createdBy = response.createdBy;
+            this.countries = response.countries;
+            this.profileForm.name = this.res.name;
+            this.profileForm.dob = this.res.dob;
+            this.profileForm.gender = this.res.gender;
+            this.profileForm.about = this.res.about;
+            this.profileForm.blood_group = this.res.blood_group;
+            this.profileForm.brothers = this.res.brothers;
+            this.profileForm.brothers_married = this.res.brothers_married;
+            this.profileForm.build = this.res.build;
+            this.profileForm.caste = this.res.caste;
+            this.profileForm.city_living = this.res.city_living;
+            this.profileForm.complexion = this.res.complexion;
+            this.profileForm.contact_number = this.res.contact_number;
+            this.selectedCountry = 1;
+            this.selectedState = 1;
+            this.profileForm.country_living = 1; //this.res.country_living;
+            this.profileForm.created_by = this.res.created_by;
+            this.profileForm.diet = this.res.diet;
+            this.profileForm.disability = this.res.disability;
+            this.profileForm.drink = this.res.drink;
+            this.profileForm.education = this.res.education;
+            this.profileForm.education_in = this.res.education_in;
+            this.profileForm.family_status = this.res.family_status;
+            this.profileForm.family_type = this.res.family_type;
+            this.profileForm.family_values = this.res.family_values;
+            this.profileForm.father = this.res.father;
+            this.profileForm.gender = this.res.gender;
+            this.profileForm.has_children = this.res.has_children;
+            this.profileForm.height = this.res.height;
+            this.profileForm.horoscope = this.res.horoscope;
+            this.profileForm.income = this.res.income;
+            this.profileForm.interests = this.res.interests;
+            this.profileForm.job = this.res.job;
+            this.profileForm.job_as = this.res.job_as;
+            this.profileForm.manglik = this.res.manglik;
+            this.profileForm.marital_status = this.res.marital_status;
+            this.profileForm.moon_sign = this.res.moon_sign;
+            this.profileForm.mother = this.res.mother;
+            this.profileForm.mother_tongue_id = this.res.mother_tongue_id;
+            this.profileForm.religion = this.res.religion;
+            this.profileForm.sisters = this.res.sisters;
+            this.profileForm.sisters_married = this.res.sisters_married;
+            this.profileForm.smoke = this.res.smoke;
+            this.profileForm.star = this.res.star;
+            this.profileForm.state_living = this.res.state_living;
+            this.profileForm.weight = this.res.weight;
         });
+    },
+    methods: {
+        getStates() {
+            var self = this
+            if (self.selectedCountry > 0) {
+                axios.get('/api/states/' + self.selectedCountry)
+                .then(function (response) {
+                    self.states = response.data
+                })
+                .catch(function (error) {
+                    console.log(error); 
+                });
+            }
+        },
+    },
+    watch: {
+        selectedCountry: function( ) {
+            this.getStates()
+            this.profileForm.country_living = this.selectedCountry
+            this.selectedState = this.res.state_living
+        },
+        selectedState: function( ) {
+            this.profileForm.state_living = this.selectedState
+        }
     }
     // beforeCreate () {
     //     this.$store.commit('setLayout', 'user')

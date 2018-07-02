@@ -5,21 +5,20 @@
         <router-link class="list-group-item" v-bind:to="'/user/profile'">Profile</router-link> 
         <router-link class="list-group-item" v-bind:to="'/user/search'">Search</router-link></router-link> 
 
-        <router-link class="list-group-item" v-bind:to="'/user/profile'">Messages</router-link> 
-        <router-link class="list-group-item" v-bind:to="'/user/change-password'">Favourites</router-link>
-        <router-link class="list-group-item" v-bind:to="'/user/search'">Interests</router-link></router-link> 
+        <router-link class="list-group-item" v-bind:to="'/user/messages'">Messages</router-link> 
+        <router-link class="list-group-item" v-bind:to="'/user/favourites'">Favourites</router-link>
+        <router-link class="list-group-item" v-bind:to="'/user/interests'">Interests</router-link></router-link> 
 
-        <router-link class="list-group-item" v-bind:to="'/user/profile'">Photos</router-link> 
-        <router-link class="list-group-item" v-bind:to="'/user/change-password'"> Preference</router-link>
-        <router-link class="list-group-item" v-bind:to="'/user/search'">Profile Visits</router-link></router-link> 
+        <router-link class="list-group-item" v-bind:to="'/user/photos'">Photos</router-link> 
+        <router-link class="list-group-item" v-bind:to="'/user/preference'"> Preference</router-link>
+        <router-link class="list-group-item" v-bind:to="'/user/profile-visits'">Profile Visits</router-link></router-link> 
         
-        <router-link class="list-group-item" v-bind:to="'/user/profile'">Payment History</router-link> 
-        <router-link class="list-group-item" v-bind:to="'/user/change-password'">Subscription</router-link>
-        <router-link class="list-group-item" v-bind:to="'/user/search'">Blacklist</router-link></router-link> 
+        <router-link class="list-group-item" v-bind:to="'/user/payments'">Payment History</router-link> 
+        <router-link class="list-group-item" v-bind:to="'/user/subscription'">Subscription</router-link>
+        <router-link class="list-group-item" v-bind:to="'/user/blacklist'">Blacklist</router-link></router-link> 
         <router-link class="list-group-item" v-bind:to="'/user/change-password'">Change Password</router-link>
       
-        <router-link class="list-group-item" v-bind:to="'/user/search'">Security Settings</router-link></router-link> 
-        <router-link class="list-group-item" v-bind:to="'/user/search'">Logout</router-link></router-link> 
+        <router-link class="list-group-item" v-bind:to="'/user/settings'">Security Settings</router-link></router-link> 
         </div>
     </div>
 </template>

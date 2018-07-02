@@ -14,9 +14,17 @@ return [
     */
 
     'user_group' => [
-        'user' => 0,
-        'manager' => 1,
-        'admin' => 2
+        'user'      => 0,
+        'manager'   => 1,
+        'admin'     => 2
+    ],
+    'created_by' => [
+        'Self'      => 0,
+        'Parents'   => 1,
+        'Siblings'  => 2,
+        'Relatives' => 3,
+        'Friends'   => 4,
+        'Others'    => 5
     ],
 
 ];

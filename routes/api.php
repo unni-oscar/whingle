@@ -21,6 +21,8 @@ use Illuminate\Http\Request;
 
 Route::post('register', 'AuthController@register');
 Route::post('login', 'AuthController@login');
+Route::get('states/{country}', 'CountryController@states');
+
 //Route::group(['prefix' => 'auth'], function () {
 //   // Route::post('/login','AuthController@authenticate');
 //    Route::post('login', 'AuthController@login');
@@ -37,9 +39,10 @@ Route::post('login', 'AuthController@login');
 
 Route::group(['middleware' => 'auth.jwt'], function () {
     Route::get('logout', 'AuthController@logout');
-
-
     Route::post('check', 'AuthController@check');
+    Route::get('user/profile', 'AuthController@getAuthUser');
+    Route::get('user/profile/edit', 'AuthController@editProfile');
+    Route::post('user/profile', 'AuthController@updateProfile');
 
     Route::get('products', 'ProductController@index');
     Route::get('products/{id}', 'ProductController@show');

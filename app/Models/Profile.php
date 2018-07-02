@@ -15,4 +15,19 @@ class Profile extends Model
      * @var bool
      */
     public $incrementing = false;
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
+
+    public function country()
+    {
+        return $this->belongsTo('App\Models\Country');
+    }
+
+    public function state()
+    {
+        return $this->belongsTo('App\Models\State');
+    }
 }

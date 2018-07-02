@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RegisterAuthRequest;
 use App\Models\Profile;
 use App\Models\User;
+use App\Models\Country;
 use App\Notifications\UserActivate;
 use Illuminate\Http\Request;
 
@@ -39,7 +40,7 @@ class AuthController extends Controller
             $profile->gender = 1;
             $profile->save();
             DB::commit();
-            $user->notify(new UserActivate());
+            //$user->notify(new UserActivate());
             //$this->notify(new UserActivate($user));
             return response()->json([
                 'success' => true,
@@ -52,7 +53,7 @@ class AuthController extends Controller
                 'success' => false,
                 'message' => __('messages.registration-failed'),
                 //'data' => $user
-            ]);
+            ], 400);
         }
     }
 
@@ -109,14 +110,35 @@ class AuthController extends Controller
         ], 200);
     }
 
-    public function getAuthUser(Request $request) {
-        $this->validate($request, [
-            'token' => 'required'
-        ]);
-
-        $user = JWTAuth::authenticate($request->token);
-
-        return response()->json(['user' => $user]);
+    public function getAuthUser(){
+        try {
+            JWTAuth::parseToken()->authenticate();
+        } catch (JWTException $e) {
+            return response()->json(['authenticated' => false],401);
+        }
+        // Getting the user details
+        $user = JWTAuth::parseToken()->authenticate();
+        $profile = $user->Profile;
+        // Getting the actual values from the key
+        $createdBy = array_flip(config('api.user_group'));
+        $profile['created_by'] = wh_flip($profile, 'created_by');
+        $profile['dob'] = wh_getAge($profile['dob']);      
+        
+        return response()->json(compact('user','profile'));
+    }
+        public function editProfile() {
+        try {
+            JWTAuth::parseToken()->authenticate();
+        } catch (JWTException $e) {
+            return response()->json(['authenticated' => false],401);
+        }
+        // Getting the user details
+        $user = JWTAuth::parseToken()->authenticate();
+        $profile = $user->Profile;
+        $createdBy = wh_arrayToObject('created_by');
+        //print_r($createdBy['data']);
+        $countries = Country::select('id', 'name')->orderBy('name', 'asc')->get();      
+        return response()->json(compact('user','profile', 'countries', 'createdBy'));
     }
 
     public function index() {
