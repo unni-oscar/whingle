@@ -63580,6 +63580,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -63597,7 +63599,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     mounted: function mounted() {
         this.selectedOption = this.value;
-        //console.log(options)
     },
 
     watch: {
@@ -63728,6 +63729,8 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__elements_html_Dropdown__ = __webpack_require__(142);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__elements_html_Dropdown___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__elements_html_Dropdown__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__elements_html_RadioButton__ = __webpack_require__(150);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__elements_html_RadioButton___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__elements_html_RadioButton__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 //
@@ -63805,32 +63808,65 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: {
-        'dropdown': __WEBPACK_IMPORTED_MODULE_0__elements_html_Dropdown___default.a
+        'dropdown': __WEBPACK_IMPORTED_MODULE_0__elements_html_Dropdown___default.a,
+        'radiobutton': __WEBPACK_IMPORTED_MODULE_1__elements_html_RadioButton___default.a
     },
     data: function data() {
         var _profileForm;
 
         return {
             res: {},
-            selectedFruit: '',
             countries: {},
             states: {},
             selectedCountry: {},
             selectedState: {},
-            createdBy: {},
-            fruitOptions: {
-                '1': 'Apple',
-                '2': 'Banana',
-                '3': 'Blueberry',
-                '4': 'Kiwi',
-                '5': 'Pear',
-                '6': 'Pineapple',
-                '7': 'Watermelon'
-            },
+            whData: {},
             profileForm: (_profileForm = {
                 name: '',
                 dob: '',
@@ -63875,7 +63911,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }).then(function (response) {
             _this.res = response.profile;
             //console.log(this.res)
-            _this.createdBy = response.createdBy;
+            _this.whData = response.whData;
+            _this.createdBy = response.whData.created_by;
+            _this.gender = response.whData.gender;
+            _this.marital = response.whData.marital;
+            _this.yesNo = response.whData.yesNo;
             _this.countries = response.countries;
             _this.profileForm.name = _this.res.name;
             _this.profileForm.dob = _this.res.dob;
@@ -63935,6 +63975,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                     console.log(error);
                 });
             }
+        },
+
+        setValue: function setValue(obj) {
+            this.profileForm[obj.name] = obj.rIndex;
         }
     },
     watch: {
@@ -63968,7 +64012,10 @@ var render = function() {
           "td",
           [
             _c("dropdown", {
-              attrs: { id: "component-dropdown", options: _vm.createdBy },
+              attrs: {
+                options: _vm.whData.created_by,
+                buttonname: "created_by"
+              },
               model: {
                 value: _vm.profileForm.created_by,
                 callback: function($$v) {
@@ -63994,22 +64041,67 @@ var render = function() {
       _vm._v(" "),
       _c("tr", [
         _c("td", [_vm._v("Gender")]),
-        _c("td", [_vm._v(_vm._s(_vm.profileForm.gender))])
+        _vm._v(" "),
+        _c(
+          "td",
+          _vm._l(_vm.whData.gender, function(channel) {
+            return _c("radiobutton", {
+              key: channel.id,
+              attrs: {
+                name: "gender",
+                rLabel: channel.name,
+                rIndex: channel.id,
+                value: _vm.profileForm.gender
+              },
+              on: { change: _vm.setValue }
+            })
+          })
+        )
       ]),
       _vm._v(" "),
       _c("tr", [
         _c("td", [_vm._v("Marital Status")]),
-        _c("td", [_vm._v(_vm._s(_vm.profileForm.marital_status))])
+        _vm._v(" "),
+        _c(
+          "td",
+          _vm._l(_vm.whData.marital, function(channel) {
+            return _c("radiobutton", {
+              key: channel.id,
+              attrs: {
+                name: "marital_status",
+                rLabel: channel.name,
+                rIndex: channel.id,
+                value: _vm.profileForm.marital_status
+              },
+              on: { change: _vm.setValue }
+            })
+          })
+        )
       ]),
       _vm._v(" "),
       _c("tr", [
-        _c("td", [_vm._v("Has Children?")]),
-        _c("td", [_vm._v(_vm._s(_vm.profileForm.has_children))])
+        _c("td", [_vm._v("Has Childen?")]),
+        _vm._v(" "),
+        _c(
+          "td",
+          _vm._l(_vm.whData.yesNo, function(channel) {
+            return _c("radiobutton", {
+              key: channel.id,
+              attrs: {
+                name: "has_children",
+                rLabel: channel.name,
+                rIndex: channel.id,
+                value: _vm.profileForm.has_children
+              },
+              on: { change: _vm.setValue }
+            })
+          })
+        )
       ]),
       _vm._v(" "),
       _c("tr", [
         _c("td", [_vm._v("About")]),
-        _c("td", [_vm._v(_vm._s(_vm.profileForm.about))])
+        _c("td", [_vm._v(_vm._s(_vm.profileForm.created_by))])
       ]),
       _vm._v(" "),
       _c("tr", [
@@ -64019,7 +64111,7 @@ var render = function() {
           "td",
           [
             _c("dropdown", {
-              attrs: { id: "component-dropdown", options: _vm.countries },
+              attrs: { options: _vm.countries },
               model: {
                 value: _vm.selectedCountry,
                 callback: function($$v) {
@@ -64045,7 +64137,7 @@ var render = function() {
           "td",
           [
             _c("dropdown", {
-              attrs: { id: "component-dropdown", options: _vm.states },
+              attrs: { options: _vm.states },
               model: {
                 value: _vm.selectedState,
                 callback: function($$v) {
@@ -64081,22 +64173,84 @@ var render = function() {
       _vm._v(" "),
       _c("tr", [
         _c("td", [_vm._v("Star")]),
-        _c("td", [_vm._v(_vm._s(_vm.profileForm.star))])
+        _vm._v(" "),
+        _c(
+          "td",
+          [
+            _c("dropdown", {
+              attrs: { options: _vm.whData.star, buttonname: "star" },
+              model: {
+                value: _vm.profileForm.star,
+                callback: function($$v) {
+                  _vm.$set(_vm.profileForm, "star", $$v)
+                },
+                expression: "profileForm.star"
+              }
+            })
+          ],
+          1
+        )
       ]),
       _vm._v(" "),
       _c("tr", [
-        _c("td", [_vm._v("Moon Sign")]),
-        _c("td", [_vm._v(_vm._s(_vm.profileForm.moon_sign))])
+        _c("td", [_vm._v("Moon sign")]),
+        _vm._v(" "),
+        _c(
+          "td",
+          [
+            _c("dropdown", {
+              attrs: { options: _vm.whData.moon_sign, buttonname: "moon_sign" },
+              model: {
+                value: _vm.profileForm.moon_sign,
+                callback: function($$v) {
+                  _vm.$set(_vm.profileForm, "moon_sign", $$v)
+                },
+                expression: "profileForm.moon_sign"
+              }
+            })
+          ],
+          1
+        )
       ]),
       _vm._v(" "),
       _c("tr", [
-        _c("td", [_vm._v("Manglik?")]),
-        _c("td", [_vm._v(_vm._s(_vm.profileForm.manglik))])
+        _c("td", [_vm._v("Manglik")]),
+        _vm._v(" "),
+        _c(
+          "td",
+          _vm._l(_vm.whData.manglik, function(channel) {
+            return _c("radiobutton", {
+              key: channel.id,
+              attrs: {
+                name: "manglik",
+                rLabel: channel.name,
+                rIndex: channel.id,
+                value: _vm.profileForm.manglik
+              },
+              on: { change: _vm.setValue }
+            })
+          })
+        )
       ]),
       _vm._v(" "),
       _c("tr", [
         _c("td", [_vm._v("Horoscope")]),
-        _c("td", [_vm._v(_vm._s(_vm.profileForm.horoscope))])
+        _vm._v(" "),
+        _c(
+          "td",
+          _vm._l(_vm.whData.horoscope, function(channel) {
+            return _c("radiobutton", {
+              key: channel.id,
+              attrs: {
+                name: "horoscope",
+                rLabel: channel.name,
+                rIndex: channel.id,
+                value: _vm.profileForm.horoscope
+              },
+              on: { change: _vm.setValue }
+            })
+          })
+        )
       ]),
       _vm._v(" "),
       _c("tr", [
@@ -64156,27 +64310,102 @@ var render = function() {
       _vm._v(" "),
       _c("tr", [
         _c("td", [_vm._v("Diet")]),
-        _c("td", [_vm._v(_vm._s(_vm.profileForm.diet))])
+        _vm._v(" "),
+        _c(
+          "td",
+          _vm._l(_vm.whData.diet, function(channel) {
+            return _c("radiobutton", {
+              key: channel.id,
+              attrs: {
+                name: "diet",
+                rLabel: channel.name,
+                rIndex: channel.id,
+                value: _vm.profileForm.diet
+              },
+              on: { change: _vm.setValue }
+            })
+          })
+        )
       ]),
       _vm._v(" "),
       _c("tr", [
         _c("td", [_vm._v("Smoke")]),
-        _c("td", [_vm._v(_vm._s(_vm.profileForm.smoke))])
+        _vm._v(" "),
+        _c(
+          "td",
+          _vm._l(_vm.whData.smoke, function(channel) {
+            return _c("radiobutton", {
+              key: channel.id,
+              attrs: {
+                name: "smoke",
+                rLabel: channel.name,
+                rIndex: channel.id,
+                value: _vm.profileForm.smoke
+              },
+              on: { change: _vm.setValue }
+            })
+          })
+        )
       ]),
       _vm._v(" "),
       _c("tr", [
         _c("td", [_vm._v("Drink")]),
-        _c("td", [_vm._v(_vm._s(_vm.profileForm.drink))])
+        _vm._v(" "),
+        _c(
+          "td",
+          _vm._l(_vm.whData.drink, function(channel) {
+            return _c("radiobutton", {
+              key: channel.id,
+              attrs: {
+                name: "drink",
+                rLabel: channel.name,
+                rIndex: channel.id,
+                value: _vm.profileForm.drink
+              },
+              on: { change: _vm.setValue }
+            })
+          })
+        )
       ]),
       _vm._v(" "),
       _c("tr", [
         _c("td", [_vm._v("Father")]),
-        _c("td", [_vm._v(_vm._s(_vm.profileForm.father))])
+        _vm._v(" "),
+        _c(
+          "td",
+          _vm._l(_vm.whData.father, function(channel) {
+            return _c("radiobutton", {
+              key: channel.id,
+              attrs: {
+                name: "father",
+                rLabel: channel.name,
+                rIndex: channel.id,
+                value: _vm.profileForm.father
+              },
+              on: { change: _vm.setValue }
+            })
+          })
+        )
       ]),
       _vm._v(" "),
       _c("tr", [
         _c("td", [_vm._v("Mother")]),
-        _c("td", [_vm._v(_vm._s(_vm.profileForm.mother))])
+        _vm._v(" "),
+        _c(
+          "td",
+          _vm._l(_vm.whData.mother, function(channel) {
+            return _c("radiobutton", {
+              key: channel.id,
+              attrs: {
+                name: "mother",
+                rLabel: channel.name,
+                rIndex: channel.id,
+                value: _vm.profileForm.mother
+              },
+              on: { change: _vm.setValue }
+            })
+          })
+        )
       ]),
       _vm._v(" "),
       _c("tr", [
@@ -64201,17 +64430,62 @@ var render = function() {
       _vm._v(" "),
       _c("tr", [
         _c("td", [_vm._v("Family Type")]),
-        _c("td", [_vm._v(_vm._s(_vm.profileForm.family_type))])
+        _vm._v(" "),
+        _c(
+          "td",
+          _vm._l(_vm.whData.family_type, function(channel) {
+            return _c("radiobutton", {
+              key: channel.id,
+              attrs: {
+                name: "family_type",
+                rLabel: channel.name,
+                rIndex: channel.id,
+                value: _vm.profileForm.family_type
+              },
+              on: { change: _vm.setValue }
+            })
+          })
+        )
       ]),
       _vm._v(" "),
       _c("tr", [
         _c("td", [_vm._v("Family Status")]),
-        _c("td", [_vm._v(_vm._s(_vm.profileForm.family_status))])
+        _vm._v(" "),
+        _c(
+          "td",
+          _vm._l(_vm.whData.family_status, function(channel) {
+            return _c("radiobutton", {
+              key: channel.id,
+              attrs: {
+                name: "family_status",
+                rLabel: channel.name,
+                rIndex: channel.id,
+                value: _vm.profileForm.family_status
+              },
+              on: { change: _vm.setValue }
+            })
+          })
+        )
       ]),
       _vm._v(" "),
       _c("tr", [
         _c("td", [_vm._v("Family Values")]),
-        _c("td", [_vm._v(_vm._s(_vm.profileForm.family_values))])
+        _vm._v(" "),
+        _c(
+          "td",
+          _vm._l(_vm.whData.family_values, function(channel) {
+            return _c("radiobutton", {
+              key: channel.id,
+              attrs: {
+                name: "family_values",
+                rLabel: channel.name,
+                rIndex: channel.id,
+                value: _vm.profileForm.family_values
+              },
+              on: { change: _vm.setValue }
+            })
+          })
+        )
       ]),
       _vm._v(" "),
       _c("tr", [
@@ -64269,6 +64543,122 @@ webpackContext.keys = function webpackContextKeys() {
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
 webpackContext.id = 149;
+
+/***/ }),
+/* 150 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(151)
+/* template */
+var __vue_template__ = __webpack_require__(152)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/elements/html/RadioButton.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3a42861a", Component.options)
+  } else {
+    hotAPI.reload("data-v-3a42861a", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 151 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['name', 'rLabel', 'value', 'rIndex'],
+    computed: {
+        radioButtonValue: {
+            get: function get() {
+                return this.value;
+            },
+            set: function set() {
+                this.$emit('change', this);
+            }
+        }
+    }
+});
+
+/***/ }),
+/* 152 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("label", { staticClass: "radio" }, [
+    _c("input", {
+      directives: [
+        {
+          name: "model",
+          rawName: "v-model",
+          value: _vm.radioButtonValue,
+          expression: "radioButtonValue"
+        }
+      ],
+      attrs: { type: "radio", name: _vm.name },
+      domProps: {
+        value: _vm.rIndex,
+        checked: _vm._q(_vm.radioButtonValue, _vm.rIndex)
+      },
+      on: {
+        change: function($event) {
+          _vm.radioButtonValue = _vm.rIndex
+        }
+      }
+    }),
+    _vm._v(" "),
+    _c("span", [_vm._v(_vm._s(_vm.rLabel))])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-3a42861a", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

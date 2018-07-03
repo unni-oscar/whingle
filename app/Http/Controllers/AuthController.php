@@ -126,7 +126,7 @@ class AuthController extends Controller
         
         return response()->json(compact('user','profile'));
     }
-        public function editProfile() {
+    public function editProfile() {
         try {
             JWTAuth::parseToken()->authenticate();
         } catch (JWTException $e) {
@@ -135,10 +135,11 @@ class AuthController extends Controller
         // Getting the user details
         $user = JWTAuth::parseToken()->authenticate();
         $profile = $user->Profile;
-        $createdBy = wh_arrayToObject('created_by');
-        //print_r($createdBy['data']);
+        $keyArr = array('created_by', 'gender', 'marital', 'yesNo', 'diet', 'drink', 'smoke', 'father','mother',
+            'horoscope', 'manglik', 'star', 'moon_sign', 'family_type', 'family_values', 'family_status');
+        $whData = wh_arrayToObject($keyArr);
         $countries = Country::select('id', 'name')->orderBy('name', 'asc')->get();      
-        return response()->json(compact('user','profile', 'countries', 'createdBy'));
+        return response()->json(compact('user','profile', 'countries',  'whData'));
     }
 
     public function index() {

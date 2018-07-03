@@ -30,11 +30,15 @@ function wh_dateUS($date) {
 }
 
 function wh_arrayToObject($arr) {
-    $data = array();
+    $whData = array();
     
-    foreach( config( wh_cFile . $arr) as $k => $v) {
-        array_push($data, ['id' => $v, 'name' => $k]);
+    foreach($arr as $key) {
+        $data = array();
+        foreach( config( wh_cFile . $key) as $k => $v) {
+            array_push($data, ['id' => $v, 'name' => $k]);
+        }
+        $whData[$key] = $data;
     }
-    return response()->json($data)->getData();
+    return response()->json($whData)->getData();
 }
  

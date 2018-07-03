@@ -4,34 +4,56 @@
        <table>
            <tr>
                <td>Created by</td>
-               <td><dropdown id="component-dropdown" :options="createdBy" v-model="profileForm.created_by" ></dropdown>
+               <td><dropdown  :options="whData.created_by" buttonname="created_by" v-model="profileForm.created_by" ></dropdown>
 </td>
             </tr>
             <tr><td>Name</td><td>{{profileForm.name}}</td></tr>
             <tr><td>Date of Birth / Age</td><td>{{profileForm.dob}}</td></tr>
-            <tr><td>Gender</td><td>{{profileForm.gender}}</td></tr>
-            <tr><td>Marital Status</td><td>{{profileForm.marital_status}}</td></tr>
-            <tr><td>Has Children?</td><td>{{profileForm.has_children}}</td></tr>
-            <tr><td>About</td><td>{{profileForm.about}}</td></tr>
-
+            <tr>
+                <td>Gender</td>
+                <td><radiobutton v-for="channel in whData.gender" name="gender" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.gender" @change="setValue"></radiobutton></td>
+            </tr>
+            <tr>
+                <td>Marital Status</td>
+                <td><radiobutton v-for="channel in whData.marital" name="marital_status" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.marital_status" @change="setValue"></radiobutton></td>
+            </tr>
+            <tr>
+                <td>Has Childen?</td>
+                <td><radiobutton v-for="channel in whData.yesNo" name="has_children" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.has_children" @change="setValue"></radiobutton></td>
+            </tr>
+            <tr><td>About</td><td>{{profileForm.created_by}}</td></tr>
             <tr>
                 <td>Country Living</td>
-                <td><dropdown id="component-dropdown" :options="countries" v-model="selectedCountry" ></dropdown></td>
+                <td><dropdown  :options="countries" v-model="selectedCountry" ></dropdown></td>
                 {{profileForm.country_living}}
                 </tr>
             <tr>
                 <td>State living {{selectedState}}</td>
-                <td><dropdown id="component-dropdown" :options="states" v-model="selectedState" ></dropdown></td>
+                <td><dropdown :options="states" v-model="selectedState" ></dropdown></td>
             </tr>
             <tr><td>City Living</td><td>{{profileForm.city_living}}</td></tr>
             
             <tr><td>Mother Tongue</td><td>{{profileForm.mother_tongue_id}}</td></tr>
             <tr><td>Religion</td><td>{{profileForm.religion}}</td></tr>
             <tr><td>Caste</td><td>{{profileForm.caste}}</td></tr>
-            <tr><td>Star</td><td>{{profileForm.star}}</td></tr>
-            <tr><td>Moon Sign</td><td>{{profileForm.moon_sign}}</td></tr>
-            <tr><td>Manglik?</td><td>{{profileForm.manglik}}</td></tr>
-            <tr><td>Horoscope</td><td>{{profileForm.horoscope}}</td></tr>
+            <tr>
+                <td>Star</td>
+                <td><dropdown  :options="whData.star" buttonname="star" v-model="profileForm.star" ></dropdown>
+</td>
+            </tr>
+             <tr>
+                <td>Moon sign</td>
+                <td><dropdown  :options="whData.moon_sign" buttonname="moon_sign" v-model="profileForm.moon_sign" ></dropdown>
+</td>
+            </tr>
+            <tr>
+                <td>Manglik</td>
+                <td><radiobutton v-for="channel in whData.manglik" name="manglik" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.manglik" @change="setValue"></radiobutton></td>
+            </tr>
+            <tr>
+                <td>Horoscope</td>
+                <td><radiobutton v-for="channel in whData.horoscope" name="horoscope" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.horoscope" @change="setValue"></radiobutton></td>
+            </tr>
 
             <tr><td>Education</td><td>{{profileForm.education}}</td></tr>
             <tr><td>Education in detail</td><td>{{profileForm.education_in}}</td></tr>
@@ -46,57 +68,68 @@
             <tr><td>Blood Group</td><td>{{profileForm.glood_group}}</td></tr>
             <tr><td>Disability</td><td>{{profileForm.disability}}</td></tr>
 
-            <tr><td>Diet</td><td>{{profileForm.diet}}</td></tr>
-            <tr><td>Smoke</td><td>{{profileForm.smoke}}</td></tr>
-            <tr><td>Drink</td><td>{{profileForm.drink}}</td></tr>
+            <tr>
+                <td>Diet</td>
+                <td><radiobutton v-for="channel in whData.diet" name="diet" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.diet" @change="setValue"></radiobutton></td>
+            </tr>
+            <tr>
+                <td>Smoke</td>
+                <td><radiobutton v-for="channel in whData.smoke" name="smoke" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.smoke" @change="setValue"></radiobutton></td>
+            </tr>
+            <tr>
+                <td>Drink</td>
+                <td><radiobutton v-for="channel in whData.drink" name="drink" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.drink" @change="setValue"></radiobutton></td>
+            </tr>
 
-            <tr><td>Father</td><td>{{profileForm.father}}</td></tr>
-            <tr><td>Mother</td><td>{{profileForm.mother}}</td></tr>
+            <tr>
+                <td>Father</td>
+                <td><radiobutton v-for="channel in whData.father" name="father" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.father" @change="setValue"></radiobutton></td>
+            </tr>
+            <tr>
+                <td>Mother</td>
+                <td><radiobutton v-for="channel in whData.mother" name="mother" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.mother" @change="setValue"></radiobutton></td>
+            </tr>
             <tr><td>Sissters</td><td>{{profileForm.sisters}}</td></tr>
             <tr><td>Sisters married</td><td>{{profileForm.sisters_married}}</td></tr>
             <tr><td>Brothers</td><td>{{profileForm.brothers}}</td></tr>
             <tr><td>Brothers married</td><td>{{profileForm.brothers_married}}</td></tr>
-            <tr><td>Family Type</td><td>{{profileForm.family_type}}</td></tr>
-            <tr><td>Family Status</td><td>{{profileForm.family_status}}</td></tr>
-            <tr><td>Family Values</td><td>{{profileForm.family_values}}</td></tr>
+            <tr>
+                <td>Family Type</td>
+                <td><radiobutton v-for="channel in whData.family_type" name="family_type" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.family_type" @change="setValue"></radiobutton></td>
+            </tr>
+            <tr>
+                <td>Family Status</td>
+                <td><radiobutton v-for="channel in whData.family_status" name="family_status" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.family_status" @change="setValue"></radiobutton></td>
+            </tr>
+            <tr>
+                <td>Family Values</td>
+                <td><radiobutton v-for="channel in whData.family_values" name="family_values" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.family_values" @change="setValue"></radiobutton></td>
+            </tr>
 
             <tr><td>Hobbies</td><td>{{profileForm.hobbies}}</td></tr>
             <tr><td>Interests</td><td>{{profileForm.intererts}}</td></tr>
 
             <tr><td>Address</td><td>{{profileForm.address}}</td></tr>
             <tr><td>Contact Number</td><td>{{profileForm.contact_number}}</td></tr>
-
-
-
-
-
         </table>
     </div>
 </template>
 <script>
 import Dropdown from '../elements/html/Dropdown'
+import Radiobutton from '../elements/html/RadioButton'
 export default {
     components: {
-        'dropdown': Dropdown
+        'dropdown': Dropdown,
+        'radiobutton': Radiobutton
     },
     data: function() {
         return {
             res: {},
-            selectedFruit: '',
             countries: {},
             states:{},
             selectedCountry: {},
             selectedState: {},
-            createdBy : {},
-            fruitOptions: {
-                '1': 'Apple',
-                '2': 'Banana',
-                '3': 'Blueberry',
-                '4': 'Kiwi',
-                '5': 'Pear',
-                '6': 'Pineapple',
-                '7': 'Watermelon'
-            },
+            whData:{},
             profileForm: {
                 name : '',
                 dob : '',
@@ -134,7 +167,6 @@ export default {
                 moon_sign : '',
                 mother : '',
                 mother_tongue_id : ''
-                
             }
         }
     },
@@ -150,7 +182,11 @@ export default {
         axios.get('/api/user/profile/edit').then(response => response.data).then(response => {
             this.res = response.profile
             //console.log(this.res)
-            this.createdBy = response.createdBy;
+            this.whData = response.whData;
+            this.createdBy = response.whData.created_by;
+            this.gender = response.whData.gender
+            this.marital = response.whData.marital
+            this.yesNo = response.whData.yesNo
             this.countries = response.countries;
             this.profileForm.name = this.res.name;
             this.profileForm.dob = this.res.dob;
@@ -212,6 +248,9 @@ export default {
                 });
             }
         },
+        setValue: function (obj) {      
+            this.profileForm[obj.name] = obj.rIndex
+        }
     },
     watch: {
         selectedCountry: function( ) {
