@@ -14,6 +14,8 @@ use Mail;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Webpatser\Uuid\Uuid;
+use App\Models\Religion;
+use App\Models\MotherTongue;
 
 class AuthController extends Controller
 {
@@ -136,10 +138,13 @@ class AuthController extends Controller
         $user = JWTAuth::parseToken()->authenticate();
         $profile = $user->Profile;
         $keyArr = array('created_by', 'gender', 'marital', 'yesNo', 'diet', 'drink', 'smoke', 'father','mother',
-            'horoscope', 'manglik', 'star', 'moon_sign', 'family_type', 'family_values', 'family_status');
+            'horoscope', 'manglik', 'star', 'moon_sign', 'family_type', 'family_values', 'family_status',
+            'bro_sis');
         $whData = wh_arrayToObject($keyArr);
-        $countries = Country::select('id', 'name')->orderBy('name', 'asc')->get();      
-        return response()->json(compact('user','profile', 'countries',  'whData'));
+        $countries = Country::select('id', 'name')->orderBy('name', 'asc')->get(); 
+        $religions = Religion::select('id', 'name')->orderBy('name', 'asc')->get(); 
+        $motherTongues = MotherTongue::select('id', 'name')->orderBy('name', 'asc')->get();      
+        return response()->json(compact('user','profile', 'countries',  'whData', 'motherTongues', 'religions'));
     }
 
     public function index() {

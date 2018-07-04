@@ -1,6 +1,7 @@
 
 <template>
     <div class="container">   
+        {{profileForm}}
        <table>
            <tr>
                <td>Created by</td>
@@ -21,30 +22,44 @@
                 <td>Has Childen?</td>
                 <td><radiobutton v-for="channel in whData.yesNo" name="has_children" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.has_children" @change="setValue"></radiobutton></td>
             </tr>
-            <tr><td>About</td><td>{{profileForm.created_by}}</td></tr>
+            <tr><td>About</td><td>
+                <textarea v-model="profileForm.about"> </textarea></td></tr>
             <tr>
-                <td>Country Living</td>
+                <td>Country Living{{ profileForm.country_living }} {{selectedCountry}}</td>
                 <td><dropdown  :options="countries" v-model="selectedCountry" ></dropdown></td>
-                {{profileForm.country_living}}
-                </tr>
+               
+            </tr>
             <tr>
-                <td>State living {{selectedState}}</td>
+                <td>State living {{ profileForm.state_living }}</td>
                 <td><dropdown :options="states" v-model="selectedState" ></dropdown></td>
             </tr>
-            <tr><td>City Living</td><td>{{profileForm.city_living}}</td></tr>
-            
-            <tr><td>Mother Tongue</td><td>{{profileForm.mother_tongue_id}}</td></tr>
-            <tr><td>Religion</td><td>{{profileForm.religion}}</td></tr>
-            <tr><td>Caste</td><td>{{profileForm.caste}}</td></tr>
+            <tr>
+                <td>City living{{ profileForm.city_living }}</td>
+                <td><dropdown :options="cities" v-model="profileForm.city_living" ></dropdown></td>
+            </tr>
+            <tr>
+                <td>Mother Tongue</td>
+                <td><dropdown  :options="motherTongues" v-model="profileForm.mother_tongue_id" ></dropdown></td>
+               
+            </tr>
+             <tr>
+                <td>Religion</td>
+                <td><dropdown  :options="religions" v-model="selectedReligion" ></dropdown></td>
+               
+            </tr>
+            <tr>
+                <td>Castes</td>
+                <td><dropdown :options="castes" v-model="profileForm.caste" ></dropdown></td>
+            </tr>
             <tr>
                 <td>Star</td>
                 <td><dropdown  :options="whData.star" buttonname="star" v-model="profileForm.star" ></dropdown>
-</td>
+            </td>
             </tr>
              <tr>
                 <td>Moon sign</td>
                 <td><dropdown  :options="whData.moon_sign" buttonname="moon_sign" v-model="profileForm.moon_sign" ></dropdown>
-</td>
+            </td>
             </tr>
             <tr>
                 <td>Manglik</td>
@@ -89,10 +104,23 @@
                 <td>Mother</td>
                 <td><radiobutton v-for="channel in whData.mother" name="mother" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.mother" @change="setValue"></radiobutton></td>
             </tr>
-            <tr><td>Sissters</td><td>{{profileForm.sisters}}</td></tr>
-            <tr><td>Sisters married</td><td>{{profileForm.sisters_married}}</td></tr>
-            <tr><td>Brothers</td><td>{{profileForm.brothers}}</td></tr>
-            <tr><td>Brothers married</td><td>{{profileForm.brothers_married}}</td></tr>
+            <tr>
+                <td>Sisters</td>
+                <td><dropdown  :options="whData.bro_sis" buttonname="sisters" v-model="profileForm.sisters" ></dropdown>
+            </td>
+            <tr>
+                <td>Sisters married</td>
+                <td><dropdown  :options="whData.bro_sis" buttonname="sisters_married" v-model="profileForm.sisters_married" ></dropdown>
+            </td>
+            <tr>
+                <td>Brothers</td>
+                <td><dropdown  :options="whData.bro_sis" buttonname="brothers" v-model="profileForm.brothers" ></dropdown>
+            </td>
+            <tr>
+                <td>Brothers married</td>
+                <td><dropdown  :options="whData.bro_sis" buttonname="brothers_married" v-model="profileForm.brothers_married" ></dropdown>
+            </td>
+            
             <tr>
                 <td>Family Type</td>
                 <td><radiobutton v-for="channel in whData.family_type" name="family_type" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.family_type" @change="setValue"></radiobutton></td>
@@ -127,8 +155,13 @@ export default {
             res: {},
             countries: {},
             states:{},
+            cities:{},
+            motherTongues:{},
+            religions: {},
+            castes:{},
             selectedCountry: {},
             selectedState: {},
+            selectedReligion: {},
             whData:{},
             profileForm: {
                 name : '',
@@ -166,7 +199,14 @@ export default {
                 marital_status : '',
                 moon_sign : '',
                 mother : '',
-                mother_tongue_id : ''
+                mother_tongue_id : '',
+                religion  : '',
+                sisters  : '',
+                sisters_married  : '',
+                smoke : '',
+                star : '',
+                state_living  : '',
+                weight  : ''
             }
         }
     },
@@ -188,6 +228,12 @@ export default {
             this.marital = response.whData.marital
             this.yesNo = response.whData.yesNo
             this.countries = response.countries;
+            this.religions = response.religions;
+            this.motherTongues = response.motherTongues
+            this.selectedCountry = this.res.country_living
+            this.selectedState = this.res.state_living
+            this.selectedCity = this.res.city_living
+            this.selectedReligion = this.res.religion
             this.profileForm.name = this.res.name;
             this.profileForm.dob = this.res.dob;
             this.profileForm.gender = this.res.gender;
@@ -200,9 +246,7 @@ export default {
             this.profileForm.city_living = this.res.city_living;
             this.profileForm.complexion = this.res.complexion;
             this.profileForm.contact_number = this.res.contact_number;
-            this.selectedCountry = 1;
-            this.selectedState = 1;
-            this.profileForm.country_living = 1; //this.res.country_living;
+            this.profileForm.country_living = this.res.country_living;
             this.profileForm.created_by = this.res.created_by;
             this.profileForm.diet = this.res.diet;
             this.profileForm.disability = this.res.disability;
@@ -248,6 +292,30 @@ export default {
                 });
             }
         },
+        getCities() {
+            var self = this
+            if (self.selectedState > 0) {
+                axios.get('/api/cities/' + self.selectedState)
+                .then(function (response) {
+                    self.cities = response.data
+                })
+                .catch(function (error) {
+                    console.log(error); 
+                });
+            }
+        },
+        getCastes() {
+            var self = this
+            if (self.selectedReligion > 0) {
+                axios.get('/api/castes/' + self.selectedReligion)
+                .then(function (response) {
+                    self.castes = response.data
+                })
+                .catch(function (error) {
+                    console.log(error); 
+                });
+            }
+        },
         setValue: function (obj) {      
             this.profileForm[obj.name] = obj.rIndex
         }
@@ -259,8 +327,14 @@ export default {
             this.selectedState = this.res.state_living
         },
         selectedState: function( ) {
+            this.getCities()
             this.profileForm.state_living = this.selectedState
-        }
+            //this.selectedCity = this.res.city_living
+        },
+        selectedReligion: function( ) {
+            this.getCastes()
+            this.profileForm.religion = this.selectedReligion
+        },
     }
     // beforeCreate () {
     //     this.$store.commit('setLayout', 'user')

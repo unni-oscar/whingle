@@ -4,15 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Country extends Model
+class MotherTongue extends Model
 {
     public function profiles()
     {
         return $this->hasMany('App\Models\Profile');
-    }
-
-    public function states()
-    {
-        return $this->hasMany('App\Models\State');
     }
 }

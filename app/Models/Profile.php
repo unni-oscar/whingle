@@ -30,4 +30,14 @@ class Profile extends Model
     {
         return $this->belongsTo('App\Models\State');
     }
+
+    public function city()
+    {
+        return $this->belongsTo('App\Models\City');
+    }
+
+    public function mother_tongue()
+    {
+        return $this->belongsTo('App\Models\MotherTongue');
+    }
 }

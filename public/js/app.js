@@ -54327,20 +54327,11 @@ var render = function() {
     "div",
     { staticClass: "container" },
     [
-      _c("label", { attrs: { for: "basic-dropdown" } }, [
-        _vm._v("Basic dropdown:  " + _vm._s(_vm.selectedFruit))
-      ]),
-      _vm._v(" "),
-      _c("dropdown", {
-        attrs: { id: "component-dropdown", options: _vm.fruitOptions },
-        model: {
-          value: _vm.selectedFruit,
-          callback: function($$v) {
-            _vm.selectedFruit = $$v
-          },
-          expression: "selectedFruit"
-        }
-      }),
+      _c(
+        "router-link",
+        { staticClass: "nav-link", attrs: { to: "/user/profile/edit" } },
+        [_vm._v("Edit")]
+      ),
       _vm._v(" "),
       _c("table", [
         _c("tr", [
@@ -63849,6 +63840,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -63864,8 +63883,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             res: {},
             countries: {},
             states: {},
+            cities: {},
+            motherTongues: {},
+            religions: {},
+            castes: {},
             selectedCountry: {},
             selectedState: {},
+            selectedReligion: {},
             whData: {},
             profileForm: (_profileForm = {
                 name: '',
@@ -63891,7 +63915,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 family_type: '',
                 family_values: '',
                 father: ''
-            }, _defineProperty(_profileForm, 'gender', ''), _defineProperty(_profileForm, 'has_children', ''), _defineProperty(_profileForm, 'height', ''), _defineProperty(_profileForm, 'horoscope', ''), _defineProperty(_profileForm, 'income', ''), _defineProperty(_profileForm, 'interests', ''), _defineProperty(_profileForm, 'job', ''), _defineProperty(_profileForm, 'job_as', ''), _defineProperty(_profileForm, 'manglik', ''), _defineProperty(_profileForm, 'marital_status', ''), _defineProperty(_profileForm, 'moon_sign', ''), _defineProperty(_profileForm, 'mother', ''), _defineProperty(_profileForm, 'mother_tongue_id', ''), _profileForm)
+            }, _defineProperty(_profileForm, 'gender', ''), _defineProperty(_profileForm, 'has_children', ''), _defineProperty(_profileForm, 'height', ''), _defineProperty(_profileForm, 'horoscope', ''), _defineProperty(_profileForm, 'income', ''), _defineProperty(_profileForm, 'interests', ''), _defineProperty(_profileForm, 'job', ''), _defineProperty(_profileForm, 'job_as', ''), _defineProperty(_profileForm, 'manglik', ''), _defineProperty(_profileForm, 'marital_status', ''), _defineProperty(_profileForm, 'moon_sign', ''), _defineProperty(_profileForm, 'mother', ''), _defineProperty(_profileForm, 'mother_tongue_id', ''), _defineProperty(_profileForm, 'religion', ''), _defineProperty(_profileForm, 'sisters', ''), _defineProperty(_profileForm, 'sisters_married', ''), _defineProperty(_profileForm, 'smoke', ''), _defineProperty(_profileForm, 'star', ''), _defineProperty(_profileForm, 'state_living', ''), _defineProperty(_profileForm, 'weight', ''), _profileForm)
         };
     },
     beforeCreate: function beforeCreate() {
@@ -63917,6 +63941,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             _this.marital = response.whData.marital;
             _this.yesNo = response.whData.yesNo;
             _this.countries = response.countries;
+            _this.religions = response.religions;
+            _this.motherTongues = response.motherTongues;
+            _this.selectedCountry = _this.res.country_living;
+            _this.selectedState = _this.res.state_living;
+            _this.selectedCity = _this.res.city_living;
+            _this.selectedReligion = _this.res.religion;
             _this.profileForm.name = _this.res.name;
             _this.profileForm.dob = _this.res.dob;
             _this.profileForm.gender = _this.res.gender;
@@ -63929,9 +63959,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             _this.profileForm.city_living = _this.res.city_living;
             _this.profileForm.complexion = _this.res.complexion;
             _this.profileForm.contact_number = _this.res.contact_number;
-            _this.selectedCountry = 1;
-            _this.selectedState = 1;
-            _this.profileForm.country_living = 1; //this.res.country_living;
+            _this.profileForm.country_living = _this.res.country_living;
             _this.profileForm.created_by = _this.res.created_by;
             _this.profileForm.diet = _this.res.diet;
             _this.profileForm.disability = _this.res.disability;
@@ -63976,6 +64004,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 });
             }
         },
+        getCities: function getCities() {
+            var self = this;
+            if (self.selectedState > 0) {
+                axios.get('/api/cities/' + self.selectedState).then(function (response) {
+                    self.cities = response.data;
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            }
+        },
+        getCastes: function getCastes() {
+            var self = this;
+            if (self.selectedReligion > 0) {
+                axios.get('/api/castes/' + self.selectedReligion).then(function (response) {
+                    self.castes = response.data;
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            }
+        },
 
         setValue: function setValue(obj) {
             this.profileForm[obj.name] = obj.rIndex;
@@ -63988,7 +64036,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             this.selectedState = this.res.state_living;
         },
         selectedState: function selectedState() {
+            this.getCities();
             this.profileForm.state_living = this.selectedState;
+            //this.selectedCity = this.res.city_living
+        },
+        selectedReligion: function selectedReligion() {
+            this.getCastes();
+            this.profileForm.religion = this.selectedReligion;
         }
         // beforeCreate () {
         //     this.$store.commit('setLayout', 'user')
@@ -64004,6 +64058,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
+    _vm._v("   \n        " + _vm._s(_vm.profileForm) + "\n       "),
     _c("table", [
       _c("tr", [
         _c("td", [_vm._v("Created by")]),
@@ -64101,11 +64156,38 @@ var render = function() {
       _vm._v(" "),
       _c("tr", [
         _c("td", [_vm._v("About")]),
-        _c("td", [_vm._v(_vm._s(_vm.profileForm.created_by))])
+        _c("td", [
+          _c("textarea", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.profileForm.about,
+                expression: "profileForm.about"
+              }
+            ],
+            domProps: { value: _vm.profileForm.about },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.profileForm, "about", $event.target.value)
+              }
+            }
+          })
+        ])
       ]),
       _vm._v(" "),
       _c("tr", [
-        _c("td", [_vm._v("Country Living")]),
+        _c("td", [
+          _vm._v(
+            "Country Living" +
+              _vm._s(_vm.profileForm.country_living) +
+              " " +
+              _vm._s(_vm.selectedCountry)
+          )
+        ]),
         _vm._v(" "),
         _c(
           "td",
@@ -64122,16 +64204,13 @@ var render = function() {
             })
           ],
           1
-        ),
-        _vm._v(
-          "\n                " +
-            _vm._s(_vm.profileForm.country_living) +
-            "\n                "
         )
       ]),
       _vm._v(" "),
       _c("tr", [
-        _c("td", [_vm._v("State living " + _vm._s(_vm.selectedState))]),
+        _c("td", [
+          _vm._v("State living " + _vm._s(_vm.profileForm.state_living))
+        ]),
         _vm._v(" "),
         _c(
           "td",
@@ -64152,23 +64231,87 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("tr", [
-        _c("td", [_vm._v("City Living")]),
-        _c("td", [_vm._v(_vm._s(_vm.profileForm.city_living))])
+        _c("td", [_vm._v("City living" + _vm._s(_vm.profileForm.city_living))]),
+        _vm._v(" "),
+        _c(
+          "td",
+          [
+            _c("dropdown", {
+              attrs: { options: _vm.cities },
+              model: {
+                value: _vm.profileForm.city_living,
+                callback: function($$v) {
+                  _vm.$set(_vm.profileForm, "city_living", $$v)
+                },
+                expression: "profileForm.city_living"
+              }
+            })
+          ],
+          1
+        )
       ]),
       _vm._v(" "),
       _c("tr", [
         _c("td", [_vm._v("Mother Tongue")]),
-        _c("td", [_vm._v(_vm._s(_vm.profileForm.mother_tongue_id))])
+        _vm._v(" "),
+        _c(
+          "td",
+          [
+            _c("dropdown", {
+              attrs: { options: _vm.motherTongues },
+              model: {
+                value: _vm.profileForm.mother_tongue_id,
+                callback: function($$v) {
+                  _vm.$set(_vm.profileForm, "mother_tongue_id", $$v)
+                },
+                expression: "profileForm.mother_tongue_id"
+              }
+            })
+          ],
+          1
+        )
       ]),
       _vm._v(" "),
       _c("tr", [
         _c("td", [_vm._v("Religion")]),
-        _c("td", [_vm._v(_vm._s(_vm.profileForm.religion))])
+        _vm._v(" "),
+        _c(
+          "td",
+          [
+            _c("dropdown", {
+              attrs: { options: _vm.religions },
+              model: {
+                value: _vm.selectedReligion,
+                callback: function($$v) {
+                  _vm.selectedReligion = $$v
+                },
+                expression: "selectedReligion"
+              }
+            })
+          ],
+          1
+        )
       ]),
       _vm._v(" "),
       _c("tr", [
-        _c("td", [_vm._v("Caste")]),
-        _c("td", [_vm._v(_vm._s(_vm.profileForm.caste))])
+        _c("td", [_vm._v("Castes")]),
+        _vm._v(" "),
+        _c(
+          "td",
+          [
+            _c("dropdown", {
+              attrs: { options: _vm.castes },
+              model: {
+                value: _vm.profileForm.caste,
+                callback: function($$v) {
+                  _vm.$set(_vm.profileForm, "caste", $$v)
+                },
+                expression: "profileForm.caste"
+              }
+            })
+          ],
+          1
+        )
       ]),
       _vm._v(" "),
       _c("tr", [
@@ -64409,25 +64552,91 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("tr", [
-        _c("td", [_vm._v("Sissters")]),
-        _c("td", [_vm._v(_vm._s(_vm.profileForm.sisters))])
+        _c("td", [_vm._v("Sisters")]),
+        _vm._v(" "),
+        _c(
+          "td",
+          [
+            _c("dropdown", {
+              attrs: { options: _vm.whData.bro_sis, buttonname: "sisters" },
+              model: {
+                value: _vm.profileForm.sisters,
+                callback: function($$v) {
+                  _vm.$set(_vm.profileForm, "sisters", $$v)
+                },
+                expression: "profileForm.sisters"
+              }
+            })
+          ],
+          1
+        )
       ]),
-      _vm._v(" "),
       _c("tr", [
         _c("td", [_vm._v("Sisters married")]),
-        _c("td", [_vm._v(_vm._s(_vm.profileForm.sisters_married))])
+        _vm._v(" "),
+        _c(
+          "td",
+          [
+            _c("dropdown", {
+              attrs: {
+                options: _vm.whData.bro_sis,
+                buttonname: "sisters_married"
+              },
+              model: {
+                value: _vm.profileForm.sisters_married,
+                callback: function($$v) {
+                  _vm.$set(_vm.profileForm, "sisters_married", $$v)
+                },
+                expression: "profileForm.sisters_married"
+              }
+            })
+          ],
+          1
+        )
       ]),
-      _vm._v(" "),
       _c("tr", [
         _c("td", [_vm._v("Brothers")]),
-        _c("td", [_vm._v(_vm._s(_vm.profileForm.brothers))])
+        _vm._v(" "),
+        _c(
+          "td",
+          [
+            _c("dropdown", {
+              attrs: { options: _vm.whData.bro_sis, buttonname: "brothers" },
+              model: {
+                value: _vm.profileForm.brothers,
+                callback: function($$v) {
+                  _vm.$set(_vm.profileForm, "brothers", $$v)
+                },
+                expression: "profileForm.brothers"
+              }
+            })
+          ],
+          1
+        )
       ]),
-      _vm._v(" "),
       _c("tr", [
         _c("td", [_vm._v("Brothers married")]),
-        _c("td", [_vm._v(_vm._s(_vm.profileForm.brothers_married))])
+        _vm._v(" "),
+        _c(
+          "td",
+          [
+            _c("dropdown", {
+              attrs: {
+                options: _vm.whData.bro_sis,
+                buttonname: "brothers_married"
+              },
+              model: {
+                value: _vm.profileForm.brothers_married,
+                callback: function($$v) {
+                  _vm.$set(_vm.profileForm, "brothers_married", $$v)
+                },
+                expression: "profileForm.brothers_married"
+              }
+            })
+          ],
+          1
+        )
       ]),
-      _vm._v(" "),
       _c("tr", [
         _c("td", [_vm._v("Family Type")]),
         _vm._v(" "),

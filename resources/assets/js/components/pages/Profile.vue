@@ -1,8 +1,8 @@
 
 <template>
     <div class="container">
-        <label for="basic-dropdown">Basic dropdown:  {{selectedFruit}}</label>
-        <dropdown id="component-dropdown" :options="fruitOptions" v-model="selectedFruit" ></dropdown>
+       
+        <router-link class="nav-link" v-bind:to="'/user/profile/edit'">Edit</router-link>
        <table>
            <tr><td>Created by</td><td>{{profileForm.created_by}}</td></tr>
             <tr><td>Name</td><td>{{profileForm.name}}</td></tr>

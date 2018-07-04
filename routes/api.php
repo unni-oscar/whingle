@@ -22,6 +22,8 @@ use Illuminate\Http\Request;
 Route::post('register', 'AuthController@register');
 Route::post('login', 'AuthController@login');
 Route::get('states/{country}', 'CountryController@states');
+Route::get('cities/{state}', 'StateController@cities');
+Route::get('castes/{religion}', 'ReligionController@castes');
 
 //Route::group(['prefix' => 'auth'], function () {
 //   // Route::post('/login','AuthController@authenticate');
