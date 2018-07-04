@@ -2,19 +2,22 @@
 <template>
     <div class="container">   
         {{profileForm}}
+        <form @submit.prevent="validateBeforeSubmit" autocomplete="off" >
+            
        <table>
-           <tr>
-               <td>Created by</td>
-               <td><dropdown  :options="whData.created_by" buttonname="created_by" v-model="profileForm.created_by" ></dropdown>
+           <tr> 
+               <td>Created by </td>
+               <td><dropdown  :options="whData.created_by" name='created_by' v-model="profileForm.created_by" validation="required|min:1" ></dropdown>
 </td>
             </tr>
-            <tr><td>Name</td><td>{{profileForm.name}}</td></tr>
+           <tr><td>Name</td><td>{{profileForm.name}}</td></tr>
             <tr><td>Date of Birth / Age</td><td>{{profileForm.dob}}</td></tr>
             <tr>
                 <td>Gender</td>
                 <td><radiobutton v-for="channel in whData.gender" name="gender" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.gender" @change="setValue"></radiobutton></td>
+                
             </tr>
-            <tr>
+             <tr>
                 <td>Marital Status</td>
                 <td><radiobutton v-for="channel in whData.marital" name="marital_status" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.marital_status" @change="setValue"></radiobutton></td>
             </tr>
@@ -26,39 +29,39 @@
                 <textarea v-model="profileForm.about"> </textarea></td></tr>
             <tr>
                 <td>Country Living{{ profileForm.country_living }} {{selectedCountry}}</td>
-                <td><dropdown  :options="countries" v-model="selectedCountry" ></dropdown></td>
+                <td><dropdown  :options="countries" name="country_living" v-model="selectedCountry" ></dropdown></td>
                
             </tr>
             <tr>
                 <td>State living {{ profileForm.state_living }}</td>
-                <td><dropdown :options="states" v-model="selectedState" ></dropdown></td>
+                <td><dropdown :options="states" name="state_living" v-model="selectedState" ></dropdown></td>
             </tr>
             <tr>
                 <td>City living{{ profileForm.city_living }}</td>
-                <td><dropdown :options="cities" v-model="profileForm.city_living" ></dropdown></td>
+                <td><dropdown :options="cities" name="city_living" v-model="profileForm.city_living" ></dropdown></td>
             </tr>
             <tr>
                 <td>Mother Tongue</td>
-                <td><dropdown  :options="motherTongues" v-model="profileForm.mother_tongue_id" ></dropdown></td>
+                <td><dropdown  :options="motherTongues" name="mother_tongue" v-model="profileForm.mother_tongue_id" ></dropdown></td>
                
             </tr>
              <tr>
                 <td>Religion</td>
-                <td><dropdown  :options="religions" v-model="selectedReligion" ></dropdown></td>
+                <td><dropdown  :options="religions" name="religion"  v-model="selectedReligion" ></dropdown></td>
                
             </tr>
             <tr>
                 <td>Castes</td>
-                <td><dropdown :options="castes" v-model="profileForm.caste" ></dropdown></td>
+                <td><dropdown :options="castes" name="caste" v-model="profileForm.caste" ></dropdown></td>
             </tr>
             <tr>
                 <td>Star</td>
-                <td><dropdown  :options="whData.star" buttonname="star" v-model="profileForm.star" ></dropdown>
+                <td><dropdown  :options="whData.star" name="star" v-model="profileForm.star" ></dropdown>
             </td>
             </tr>
              <tr>
                 <td>Moon sign</td>
-                <td><dropdown  :options="whData.moon_sign" buttonname="moon_sign" v-model="profileForm.moon_sign" ></dropdown>
+                <td><dropdown  :options="whData.moon_sign" name="moon_sign" v-model="profileForm.moon_sign" ></dropdown>
             </td>
             </tr>
             <tr>
@@ -75,7 +78,6 @@
             <tr><td>Job</td><td>{{profileForm.job}}</td></tr>
             <tr><td>Job in detail</td><td>{{profileForm.job_as}}</td></tr>
             <tr><td>Income</td><td>{{profileForm.income}}</td></tr>
-
             <tr><td>Height</td><td>{{profileForm.height}}</td></tr>
             <tr><td>Weight</td><td>{{profileForm.weight}}</td></tr>
             <tr><td>Build</td><td>{{profileForm.build}}</td></tr>
@@ -106,19 +108,19 @@
             </tr>
             <tr>
                 <td>Sisters</td>
-                <td><dropdown  :options="whData.bro_sis" buttonname="sisters" v-model="profileForm.sisters" ></dropdown>
+                <td><dropdown  :options="whData.bro_sis" name="sisters" v-model="profileForm.sisters" ></dropdown>
             </td>
             <tr>
                 <td>Sisters married</td>
-                <td><dropdown  :options="whData.bro_sis" buttonname="sisters_married" v-model="profileForm.sisters_married" ></dropdown>
+                <td><dropdown  :options="whData.bro_sis" name="sisters_married" v-model="profileForm.sisters_married" ></dropdown>
             </td>
             <tr>
                 <td>Brothers</td>
-                <td><dropdown  :options="whData.bro_sis" buttonname="brothers" v-model="profileForm.brothers" ></dropdown>
+                <td><dropdown  :options="whData.bro_sis" name="brothers" v-model="profileForm.brothers" ></dropdown>
             </td>
             <tr>
                 <td>Brothers married</td>
-                <td><dropdown  :options="whData.bro_sis" buttonname="brothers_married" v-model="profileForm.brothers_married" ></dropdown>
+                <td><dropdown  :options="whData.bro_sis" name="brothers_married" v-model="profileForm.brothers_married" ></dropdown>
             </td>
             
             <tr>
@@ -138,8 +140,10 @@
             <tr><td>Interests</td><td>{{profileForm.intererts}}</td></tr>
 
             <tr><td>Address</td><td>{{profileForm.address}}</td></tr>
-            <tr><td>Contact Number</td><td>{{profileForm.contact_number}}</td></tr>
+            <tr><td>Contact Number</td><td>{{profileForm.contact_number}}</td></tr> 
         </table>
+        <button type="submit" class="btn btn-info">Update profile</button>
+        </form>
     </div>
 </template>
 <script>
@@ -152,6 +156,7 @@ export default {
     },
     data: function() {
         return {
+            email: {},
             res: {},
             countries: {},
             states:{},
@@ -318,6 +323,23 @@ export default {
         },
         setValue: function (obj) {      
             this.profileForm[obj.name] = obj.rIndex
+        },
+         validateBeforeSubmit () {
+            this.$validator.validateAll().then((result) => {
+                console.log(result)
+                if(result) {
+                    // //this.$store.dispatch('login')
+                    // axios.post('/api/login', this.loginForm).then(response =>  {
+                    //     this.$store.commit('loginSuccess', response)
+                    //     this.$router.replace(this.$route.query.redirect || '/user')
+                    //     }).catch(error => {
+                    //         this.authError = error.response.data.message
+                    //     });
+                    console.log('success')
+                } else {
+                    console.log('error')
+                }
+            })
         }
     },
     watch: {
