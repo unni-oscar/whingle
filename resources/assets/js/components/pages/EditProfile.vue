@@ -344,6 +344,11 @@ export default {
     },
     watch: {
         selectedCountry: function( ) {
+            this.$notify({
+  type: 'success',
+  title: 'Important message',
+  text: 'Hello user! This is a notification!'
+});
             this.getStates()
             this.profileForm.country_living = this.selectedCountry
             this.selectedState = this.res.state_living

@@ -1,5 +1,6 @@
 <template>
     <div id="app">
+        <notifications />
         <header-component></header-component>
         <component  v-bind:is="layout"></component>
         <footer-component></footer-component> 
@@ -47,5 +48,4 @@ body {
 .portfolio-item {
   margin-bottom: 30px;
 }
-
 </style>
