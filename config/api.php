@@ -31,8 +31,8 @@ return [
     */
     
     'gender' => [
-        'Male'      => 1,
-        'Female'    => 0
+        'Male'      => 3,
+        'Female'    => 4
     ],
     'yesNo' => [
         'Yes'      => 1,
@@ -44,12 +44,12 @@ return [
         'Separated' => 3
     ],
     'created_by' => [
-        'Self'      => 0,
-        'Parents'   => 1,
-        'Siblings'  => 2,
-        'Relatives' => 3,
-        'Friends'   => 4,
-        'Others'    => 5
+        'Self'      => 1,
+        'Parents'   => 2,
+        'Siblings'  => 3,
+        'Relatives' => 4,
+        'Friends'   => 5,
+        'Others'    => 6
     ],
     'diet' => [
         'Veg'    => 1,

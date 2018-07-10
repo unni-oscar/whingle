@@ -1,6 +1,7 @@
 
 <template>
     <div class="container">   
+        
         {{profileForm}}
         <form @submit.prevent="validateBeforeSubmit" autocomplete="off" >
             
@@ -10,7 +11,9 @@
                <td><dropdown  :options="whData.created_by" name='created_by' v-model="profileForm.created_by" validation="required|min:1" ></dropdown>
 </td>
             </tr>
-           <tr><td>Name</td><td>{{profileForm.name}}</td></tr>
+           <tr><td>Name</td>
+           <td><input type="text" name="name" v-model="profileForm.name"/></td>
+           </tr>
             <tr><td>Date of Birth / Age</td><td>{{profileForm.dob}}</td></tr>
             <tr>
                 <td>Gender</td>
@@ -152,7 +155,7 @@ import Radiobutton from '../elements/html/RadioButton'
 export default {
     components: {
         'dropdown': Dropdown,
-        'radiobutton': Radiobutton
+        'radiobutton': Radiobutton,
     },
     data: function() {
         return {
@@ -325,19 +328,23 @@ export default {
             this.profileForm[obj.name] = obj.rIndex
         },
          validateBeforeSubmit () {
-            this.$validator.validateAll().then((result) => {
-                console.log(result)
+            this.$validator.validateAll().then((result) => {                
                 if(result) {
-                    // //this.$store.dispatch('login')
-                    // axios.post('/api/login', this.loginForm).then(response =>  {
-                    //     this.$store.commit('loginSuccess', response)
-                    //     this.$router.replace(this.$route.query.redirect || '/user')
-                    //     }).catch(error => {
-                    //         this.authError = error.response.data.message
-                    //     });
-                    console.log('success')
+                    axios.post('/api/user/profile', this.profileForm).then(response =>  {
+                        this.$notify({
+                            type: 'success',
+                            title: 'Success',
+                            text: 'Profile updated successfully'
+                        });
+                        this.$router.push('/user/profile') 
+                    }).catch(error => {
+                        this.$notify({
+                            type: 'error',
+                            title: 'Error',
+                            text: error.response.data.message
+                        });
+                    });
                 } else {
-                    console.log('error')
                 }
             })
         }
@@ -345,10 +352,10 @@ export default {
     watch: {
         selectedCountry: function( ) {
             this.$notify({
-  type: 'success',
-  title: 'Important message',
-  text: 'Hello user! This is a notification!'
-});
+            type: 'success',
+            title: 'Important message',
+            text: 'Hello user! This is a notification!'
+        });
             this.getStates()
             this.profileForm.country_living = this.selectedCountry
             this.selectedState = this.res.state_living

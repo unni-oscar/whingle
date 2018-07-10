@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterAuthRequest;
+use App\Http\Requests\ProfileRequest;
 use App\Models\Profile;
 use App\Models\User;
 use App\Models\Country;
 use App\Notifications\UserActivate;
 use Illuminate\Http\Request;
-
+use Validator;
 use Illuminate\Support\Facades\DB;
 use Mail;
 use JWTAuth;
@@ -145,6 +146,33 @@ class AuthController extends Controller
         $religions = Religion::select('id', 'name')->orderBy('name', 'asc')->get(); 
         $motherTongues = MotherTongue::select('id', 'name')->orderBy('name', 'asc')->get();      
         return response()->json(compact('user','profile', 'countries',  'whData', 'motherTongues', 'religions'));
+    }
+
+    public function updateProfile(request $request) {
+        // TODO : move this to request 
+        $validation = Validator::make($request->all(), [
+            'name' => 'required',
+            'gender' => 'bail|required|in:1,2',
+            'created_by' => 'required|gt:0|lt:7'
+           
+        ],[
+            'name.required' => 'Name required'
+        ]);
+
+        if($validation->fails())
+            return response()->json([
+                'status' => 'error',
+                'message' => $validation->messages()->first()
+            ], 422);
+        
+        $user = JWTAuth::parseToken()->authenticate();
+        $user->profile->name = $request->name;
+        $user->profile->save();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Profile updated successfully'
+        ], 200);
+         
     }
 
     public function index() {

@@ -54522,6 +54522,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 
 
@@ -54684,20 +54687,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             this.profileForm[obj.name] = obj.rIndex;
         },
         validateBeforeSubmit: function validateBeforeSubmit() {
+            var _this2 = this;
+
             this.$validator.validateAll().then(function (result) {
-                console.log(result);
                 if (result) {
-                    // //this.$store.dispatch('login')
-                    // axios.post('/api/login', this.loginForm).then(response =>  {
-                    //     this.$store.commit('loginSuccess', response)
-                    //     this.$router.replace(this.$route.query.redirect || '/user')
-                    //     }).catch(error => {
-                    //         this.authError = error.response.data.message
-                    //     });
-                    console.log('success');
-                } else {
-                    console.log('error');
-                }
+                    axios.post('/api/user/profile', _this2.profileForm).then(function (response) {
+                        _this2.$notify({
+                            type: 'success',
+                            title: 'Success',
+                            text: 'Profile updated successfully'
+                        });
+                        _this2.$router.push('/user/profile');
+                    }).catch(function (error) {
+                        _this2.$notify({
+                            type: 'error',
+                            title: 'Error',
+                            text: error.response.data.message
+                        });
+                    });
+                } else {}
             });
         }
     },
@@ -54983,7 +54991,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _vm._v("   \n        " + _vm._s(_vm.profileForm) + "\n        "),
+    _vm._v("   \n        \n        " + _vm._s(_vm.profileForm) + "\n        "),
     _c(
       "form",
       {
@@ -55024,7 +55032,29 @@ var render = function() {
           _vm._v(" "),
           _c("tr", [
             _c("td", [_vm._v("Name")]),
-            _c("td", [_vm._v(_vm._s(_vm.profileForm.name))])
+            _vm._v(" "),
+            _c("td", [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.profileForm.name,
+                    expression: "profileForm.name"
+                  }
+                ],
+                attrs: { type: "text", name: "name" },
+                domProps: { value: _vm.profileForm.name },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.profileForm, "name", $event.target.value)
+                  }
+                }
+              })
+            ])
           ]),
           _vm._v(" "),
           _c("tr", [
