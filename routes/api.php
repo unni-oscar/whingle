@@ -19,7 +19,8 @@ use Illuminate\Http\Request;
 
 //Route::resource('users', 'AuthController');
 
-Route::post('register', 'AuthController@register');
+Route::get('register', 'AuthController@register');
+Route::post('register', 'AuthController@store');
 Route::post('login', 'AuthController@login');
 Route::get('states/{country}', 'CountryController@states');
 Route::get('cities/{state}', 'StateController@cities');

@@ -10,8 +10,7 @@ import router from './routes'
 import App from './AppComponent'
 window.Vue = require('vue');
 
-import VeeValidate from 'vee-validate'
-Vue.use(VeeValidate)
+require('./vee_validate')
 
 import Notifications from 'vue-notification'
 Vue.use(Notifications)

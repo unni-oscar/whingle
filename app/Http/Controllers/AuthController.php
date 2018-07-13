@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RegisterAuthRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\ProfileRequest;
 use App\Models\Profile;
 use App\Models\User;
@@ -21,9 +21,27 @@ use App\Models\MotherTongue;
 class AuthController extends Controller
 {
 
-    public function register(RegisterAuthRequest $request) {
-        //new User()
-        DB::beginTransaction();
+    public function register() {
+        
+        $keyArr = array('created_by', 'gender', 'marital');
+        $whData = wh_arrayToObject($keyArr);
+        $countries = Country::select('id', 'name')->orderBy('name', 'asc')->get(); 
+        // $religions = Religion::select('id', 'name')->orderBy('name', 'asc')->get(); 
+        $motherTongues = MotherTongue::select('id', 'name')->orderBy('name', 'asc')->get();  
+        return response()->json(compact('countries',  'whData', 'motherTongues'));
+    }
+    public function store(RegisterRequest $request) {
+        // $validated = $request->validated();
+        // print_r($validated);
+        // print_r($request->all());
+        // if($validator->fails()) {
+        //     echo "##";
+        // } else {
+        //     echo "@@";
+        // }
+        // return response()->json($request);
+        // echo "Asdad";
+        /*DB::beginTransaction();
         try {
             $user = new User();
             $user->short_id = strtoupper(base_convert(microtime(false), 10, 36));
@@ -57,7 +75,7 @@ class AuthController extends Controller
                 'message' => __('messages.registration-failed'),
                 //'data' => $user
             ], 400);
-        }
+        } */
     }
 
     public function login(Request $request) {

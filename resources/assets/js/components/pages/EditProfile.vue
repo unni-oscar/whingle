@@ -1,8 +1,191 @@
 
 <template>
-    <div class="container">   
-        
-        {{profileForm}}
+    <div class="container-fluid">  
+         
+        <!-- <div class="card">
+            <div class="card-body">
+                <button class="btn btn-info btn-sm pull-right"><i class="fas fa-user-plus"></i> Create User</button>
+                <button class="btn btn-info btn-sm pull-right m-r-5"><i class="fas fa-filter"></i> Filter</button>
+                <h4 class="card-title">User List</h4>
+                <h6 class="card-subtitle">Total 2 result found.</h6>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th> <th>Email</th> 
+                                <th>Role</th> <th>Status</th> 
+                                <th>Created at</th> 
+                                <th class="table-option">Action</th>
+                            </tr>
+                        </thead> 
+                        <tbody>
+                            <tr>
+                                <td>John Doe</td> 
+                                <td>john.doe@example.com</td> 
+                                <td><ul style="list-style: none; padding: 0px;"><li>admin</li></ul></td> 
+                                <td><span class="label label-success m-r-5">Activated</span></td> 
+                                <td>03-05-2018</td> 
+                                <td class="table-option"><div class="btn-group"><a href="/user/1" class="btn btn-info btn-sm has-tooltip"><i class="fas fa-arrow-circle-right"></i></a> <button class="btn btn-danger btn-sm has-tooltip"><i class="fas fa-trash"></i></button></div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+            </div>
+        </div> -->
+
+        <div class="row mt-5">
+            <div class="col-md-11">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">
+                            Edit Profile
+                        </h4>
+                        <p class="card-category">
+                            Complete your profile
+                        </p>
+                    </div>
+                    <div class="card-body">
+                       <form>
+                            
+                            <div class="form-group row">
+                                <label for="created_by" class="col-md-3" >Created by</label>
+                                <div class="col-sm-9">
+                                    <dropdown cl="col-md-6 form-control" :options="whData.created_by" name='created_by' v-model="profileForm.created_by" validation="required|min:1" ></dropdown>
+                                </div>
+                                
+                            </div>
+                            <div class="form-group row">
+                                <label for="name" class="col-md-3" >Name</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="name" class="col-sm-6" v-model="profileForm.name" validation="required" />
+                                </div>
+                                
+                            </div>
+                            <div class="form-group row">
+                                <label for="dob" class="col-md-3" >Date of Birth/Age</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="dob" class="col-sm-6" v-model="profileForm.dob"/>
+                                </div>
+                                
+                            </div>
+                            <div class="form-group row">
+                                <label for="name" class="col-md-3" >Gender</label>
+                                <div class="col-sm-9">
+                                    <radiobutton v-for="channel in whData.gender" name="gender" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.gender" @change="setValue"></radiobutton>
+                                </div>
+                                
+                            </div>
+                             <div class="form-group row">
+                                <label for="name" class="col-md-3" >Marital Status</label>
+                                <div class="col-sm-9">
+                                    <radiobutton v-for="channel in whData.marital" name="marital_status" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.marital_status" @change="setValue"></radiobutton>
+                                </div>
+                                
+                            </div>
+                             <div class="form-group row">
+                                <label for="name" class="col-md-3" >Has Children</label>
+                                <div class="col-sm-9">
+                                    <radiobutton v-for="channel in whData.yesNo" name="has_children" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.has_children" @change="setValue"></radiobutton>
+                                </div>
+                                
+                            </div>
+                            <hr/>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="email" >Living Country</label>
+                                    <dropdown  cl="col-md-10 form-control" :options="countries" name="country_living" v-model="selectedCountry" ></dropdown>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="email" >Living State</label>
+                                    <dropdown cl="col-md-10 form-control" :options="states" name="state_living" v-model="selectedState" ></dropdown>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="email" >Living City</label>
+                                    <dropdown cl="col-md-10 form-control" :options="cities" name="city_living" v-model="profileForm.city_living" ></dropdown>
+                                </div>
+                            </div>
+                            <hr/>
+                            <div class="form-group row">
+                                <label for="mother_tongue" class="col-md-3" >Mother Tongue</label>
+                                <div class="col-sm-9">
+                                    <dropdown cl="col-md-6 form-control" :options="motherTongues" name="mother_tongue" v-model="profileForm.mother_tongue_id" ></dropdown>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="religion" class="col-md-3" >Religion</label>
+                                <div class="col-sm-9">
+                                    <dropdown  cl="col-md-6 form-control" :options="religions" name="religion"  v-model="selectedReligion" ></dropdown>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="caste" class="col-md-3" >Caste</label>
+                                <div class="col-sm-9">
+                                    <dropdown cl="col-md-6 form-control" :options="castes" name="caste" v-model="profileForm.caste" ></dropdown>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="star" class="col-md-3" >Star</label>
+                                <div class="col-md-9">
+                                    <dropdown  cl="col-md-6 form-control" :options="whData.star" name="star" v-model="profileForm.star" ></dropdown>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="moon_sign" class="col-md-3" >Moon Sign</label>
+                                <div class="col-sm-9">
+                                    <dropdown cl="col-md-6 form-control"  :options="whData.moon_sign" name="moon_sign" v-model="profileForm.moon_sign" ></dropdown>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="manglik" class="col-md-3" >Manglik</label>
+                                <div class="col-sm-9">
+                                    <radiobutton v-for="channel in whData.manglik" name="manglik" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.manglik" @change="setValue"></radiobutton>
+                                </div>
+                                
+                            </div>
+                            <div class="form-group row">
+                                <label for="horoscope" class="col-md-3" >Horoscope match required</label>
+                                <div class="col-sm-9">
+                                    <radiobutton v-for="channel in whData.horoscope" name="horoscope" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.horoscope" @change="setValue"></radiobutton>
+                                </div>
+                                
+                            </div>
+                            <hr/>
+                            <div class="form-group row">
+                                <label for="diet" class="col-md-3" >Diet</label>
+                                <div class="col-sm-9">
+                                    <radiobutton v-for="channel in whData.diet" name="diet" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.diet" @change="setValue"></radiobutton>
+                                </div>
+                                
+                            </div>
+                            <div class="form-group row">
+                                <label for="smoke" class="col-md-3" >Smoke</label>
+                                <div class="col-sm-9">
+                                    <radiobutton v-for="channel in whData.smoke" name="smoke" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.smoke" @change="setValue"></radiobutton>
+                                </div>
+                                
+                            </div>
+                            <div class="form-group row">
+                                <label for="drink" class="col-md-3" >Drink</label>
+                                <div class="col-sm-9">
+                                    <radiobutton v-for="channel in whData.drink" name="drink" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.drink" @change="setValue"></radiobutton>
+                                </div>
+                                
+                            </div>
+                            <hr/>
+                            <div class="form-group">
+                                <label for="email" >Email</label>
+                                <input type="email" class="form-control"/>
+                                <div class="invalid-feedback">Please provide a valid email.</div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+               
+
+        <!-- {{profileForm}} -->
         <form @submit.prevent="validateBeforeSubmit" autocomplete="off" >
             
        <table>
