@@ -46,41 +46,48 @@
                         </p>
                     </div>
                     <div class="card-body">
-                       <form>
+                       <form @submit.prevent="validateBeforeSubmit" autocomplete="off" >
                             
                             <div class="form-group row">
                                 <label for="created_by" class="col-md-3" >Created by</label>
-                                <div class="col-sm-9">
-                                    <dropdown cl="col-md-6 form-control" :options="whData.created_by" name='created_by' v-model="profileForm.created_by" validation="required|min:1" ></dropdown>
+                                <div class="col-sm-9"> {{profileForm.created_by}}
+                                    <dropdown cl="col-md-6 form-control" :options="whData.created_by" name='created_by' v-model="profileForm.created_by" validation="required|min_value:1|max_value:6" ></dropdown>
                                 </div>
                                 
                             </div>
                             <div class="form-group row">
                                 <label for="name" class="col-md-3" >Name</label>
                                 <div class="col-sm-9">
-                                    <input type="text" name="name" class="col-sm-6" v-model="profileForm.name" validation="required" />
+                                    <input type="text" name="name" class="col-sm-6" v-model="profileForm.name" v-validate="'required|alpha_spaces|max:40'" />
+                                    <p v-show="errors.has('name')" class="text-danger"> {{ errors.first('name') }}</p>
+
                                 </div>
                                 
                             </div>
                             <div class="form-group row">
                                 <label for="dob" class="col-md-3" >Date of Birth/Age</label>
                                 <div class="col-sm-9">
-                                    <input type="text" name="dob" class="col-sm-6" v-model="profileForm.dob"/>
+                                    <input type="text" name="dob" class="col-sm-6" v-model="profileForm.dob" v-validate="'required'" />
+                                    <p v-show="errors.has('dob')" class="text-danger"> {{ errors.first('dob') }}</p>
+
                                 </div>
                                 
                             </div>
                             <div class="form-group row">
                                 <label for="name" class="col-md-3" >Gender</label>
                                 <div class="col-sm-9">
-                                    <radiobutton v-for="channel in whData.gender" name="gender" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.gender" @change="setValue"></radiobutton>
+                                    <radiobutton v-for="channel in whData.gender" name="gender" :rLabel="channel.name" v-validate="'required|included:1,2'" :key="channel.id"  :rIndex="channel.id" :value="profileForm.gender" @change="setValue"></radiobutton>
+                                    <p v-show="errors.has('gender')" class="text-danger"> {{ errors.first('gender') }}</p>
+
                                 </div>
                                 
                             </div>
                              <div class="form-group row">
                                 <label for="name" class="col-md-3" >Marital Status</label>
                                 <div class="col-sm-9">
-                                    <radiobutton v-for="channel in whData.marital" name="marital_status" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.marital_status" @change="setValue"></radiobutton>
-                                </div>
+                                    <radiobutton v-for="channel in whData.marital" name="marital_status" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" v-validate="'required'" :value="profileForm.marital_status" @change="setValue"></radiobutton>
+                                   <p v-show="errors.has('marital_status')" class="text-danger"> {{ errors.first('marital_status') }}</p>
+                                 </div>
                                 
                             </div>
                              <div class="form-group row">
@@ -92,7 +99,7 @@
                             </div>
                             <hr/>
                             <div class="form-row">
-                                <div class="form-group col-md-4">
+                                <div class="col-md-4">
                                     <label for="email" >Living Country</label>
                                     <dropdown  cl="col-md-10 form-control" :options="countries" name="country_living" v-model="selectedCountry" ></dropdown>
                                 </div>
@@ -178,6 +185,8 @@
                                 <input type="email" class="form-control"/>
                                 <div class="invalid-feedback">Please provide a valid email.</div>
                             </div>
+                            <button type="submit" class="btn btn-info">Update profile</button>
+
                         </form>
                     </div>
                 </div>
@@ -186,9 +195,9 @@
                
 
         <!-- {{profileForm}} -->
-        <form @submit.prevent="validateBeforeSubmit" autocomplete="off" >
+        <!-- <form @submit.prevent="validateBeforeSubmit" autocomplete="off" > -->
             
-       <table>
+       <!-- <table>
            <tr> 
                <td>Created by </td>
                <td><dropdown  :options="whData.created_by" name='created_by' v-model="profileForm.created_by" validation="required|min:1" ></dropdown>
@@ -328,8 +337,8 @@
             <tr><td>Address</td><td>{{profileForm.address}}</td></tr>
             <tr><td>Contact Number</td><td>{{profileForm.contact_number}}</td></tr> 
         </table>
-        <button type="submit" class="btn btn-info">Update profile</button>
-        </form>
+        <button type="submit" class="btn btn-info">Update profile</button> -->
+        <!-- </form> -->
     </div>
 </template>
 <script>

@@ -9,13 +9,16 @@ Vue.use(VeeValidate,{
                     required: 'Please select date of birth'
                 },
                 created_by: {
-                    required: 'Please select \'created by\''
+                    required: 'Please select \'created by\'',
+                    min_value: 'Please make a valid selection',
+                    max_value: 'Please make a valid selection'
                 },
                 name: {
                     required: 'Please enter name'
                 },
                 gender: {
-                    required: 'Please select gender'
+                    required: 'Please select gender',
+                    included: 'Please select gender'
                 },
                 marital_status: {
                     required: 'Please select marital status'

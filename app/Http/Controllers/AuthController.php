@@ -22,7 +22,6 @@ class AuthController extends Controller
 {
 
     public function register() {
-        
         $keyArr = array('created_by', 'gender', 'marital');
         $whData = wh_arrayToObject($keyArr);
         $countries = Country::select('id', 'name')->orderBy('name', 'asc')->get(); 
@@ -31,41 +30,30 @@ class AuthController extends Controller
         return response()->json(compact('countries',  'whData', 'motherTongues'));
     }
     public function store(RegisterRequest $request) {
-        // $validated = $request->validated();
-        // print_r($validated);
-        // print_r($request->all());
-        // if($validator->fails()) {
-        //     echo "##";
-        // } else {
-        //     echo "@@";
-        // }
-        // return response()->json($request);
-        // echo "Asdad";
-        /*DB::beginTransaction();
         try {
             $user = new User();
             $user->short_id = strtoupper(base_convert(microtime(false), 10, 36));
             $user->name = $request->name;
             $user->email = $request->email;
-            $user->user_group_id = config('api.user_group.user');
+            $user->user_group_id = config('api.user_group.User');
             $user->activation_token = utf8_encode(Uuid::generate(4));
             $user->password = bcrypt($request->password);
             $user->save();
 
             $profile = new Profile();
-            $profile->name = "test";
+            $profile->name = $request->name;
             $profile->user_id = $user->id;
-            $profile->created_by = 1;
+            $profile->created_by = $request->created_by;
             $profile->dob = now();
-            $profile->marital_status = 1;
-            $profile->gender = 1;
+            $profile->marital_status = $request->marital_status;
+            $profile->gender = $request->gender;
             $profile->save();
             DB::commit();
             //$user->notify(new UserActivate());
             //$this->notify(new UserActivate($user));
             return response()->json([
                 'success' => true,
-                'message' => __('messages.registation-success'),
+                'message' => __('messages.registration-success'),
                 'data' => $user
             ], 201);
         } catch (\Exception $e) {
@@ -73,9 +61,8 @@ class AuthController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => __('messages.registration-failed'),
-                //'data' => $user
             ], 400);
-        } */
+        }
     }
 
     public function login(Request $request) {

@@ -1,8 +1,8 @@
 <template>
   <div> 
-    <select v-model="selectedOption" :name="name"   @input="event => { $emit('input', event.target.value) }" v-validate="validation">
-        <option  selected value="">Select...</option>
-      <option v-for="(option) in options" :key="option.id" :value="option.id">{{ option.name }}</option>
+    <select v-model="selectedOption" :name="name" :class="cl"  @input="event => { $emit('input', event.target.value) }" v-validate="validation">
+        <option value="">Select...</option>
+        <option v-for="(option) in options" :key="option.id" :value="option.id">{{ option.name }}</option>
     </select>
      <p v-show="errors.has(name)" class="text-danger"> {{ errors.first(name) }}</p>
   </div>
@@ -21,7 +21,8 @@ export default {
         options: {},
         value : {},
         validation: {},
-        name: {}
+        name: {},
+        cl : {}
     },
     mounted () {
         this.selectedOption = this.value

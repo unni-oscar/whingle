@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
-
+use Carbon\Carbon;
 class RegisterRequest extends FormRequest
 {
     /**
@@ -25,22 +25,31 @@ class RegisterRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name' => 'required|min:2',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:2|max:30',
-            'created_by' => 'required',
-            'dob' => 'required',
-            'gender' => 'required',
-            'marital_status' => 'required'
+        // Mininum age for registration is 18 years
+        $y18 = Carbon::create()->subYear(18)->format('Y/m/d');
 
+        return [
+            'created_by' => 'required|gte:1|lte:6',
+            'name' => 'required|max:40|regex:/[a-zA-Z\s]+$/',
+            'dob' => 'required|before:'.$y18,
+            'gender' => 'required|in:1,2',
+            'marital_status' => 'required|in:1,2,3',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:2|max:30'
             // 'phone' => 'nullable|numeric'
         ];
     }
 
+    public function messages() {
+        return [
+            'created_by.gte' => 'Please make a valid selection',
+            'created_by.lte' => 'Please make a valid selection',
+            'name.regex' => 'The name field may only contain alphabetic characters as well as spaces.',
+            'dob.before' => 'You should be 18 years of age'
+        ];
+    }
 
     public function failedValidation(Validator $validator) {
-        // /print_r($validator);
         Throw new HttpResponseException(response()->json([
             'status' => 'error',
             'message' => $validator->errors()

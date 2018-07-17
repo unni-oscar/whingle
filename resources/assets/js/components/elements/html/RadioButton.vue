@@ -1,5 +1,5 @@
 <template>
-    <label class="radio">
+    <label class="radio mr-2">
         <input type="radio" ref="name" :value="rIndex" :name="name" v-model="radioButtonValue"> <span>{{rLabel}}</span>
     </label>
 </template>

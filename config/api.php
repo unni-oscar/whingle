@@ -31,8 +31,8 @@ return [
     */
     
     'gender' => [
-        'Male'      => 3,
-        'Female'    => 4
+        'Male'      => 1,
+        'Female'    => 2
     ],
     'yesNo' => [
         'Yes'      => 1,
