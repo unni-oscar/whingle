@@ -12,6 +12,9 @@
                   <router-link class="nav-link" v-bind:to="'/about'">About</router-link>                 
                 </li>
                 <li class="nav-item">
+                  <router-link class="nav-link" v-bind:to="'/search'">Search</router-link> 
+                </li>
+                <li class="nav-item">
                   <router-link class="nav-link" v-bind:to="'/packages'">Packages</router-link> 
                 </li>
                 <li class="nav-item" v-if="isLoggedIn">

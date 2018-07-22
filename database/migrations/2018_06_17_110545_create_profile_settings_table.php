@@ -13,6 +13,7 @@ class CreateProfileSettingsTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('profile_settings');
         Schema::create('profile_settings', function (Blueprint $table) {
             $table->uuid('id');
             $table->primary('id');

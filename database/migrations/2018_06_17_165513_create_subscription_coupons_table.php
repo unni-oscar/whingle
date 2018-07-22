@@ -13,6 +13,7 @@ class CreateSubscriptionCouponsTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('subscription_coupons');
         Schema::create('subscription_coupons', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('coupon_id')->unsigned();

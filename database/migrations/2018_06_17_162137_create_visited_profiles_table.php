@@ -13,6 +13,7 @@ class CreateVisitedProfilesTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('visited_profiles');
         Schema::create('visited_profiles', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('profile_id')->unsigned();

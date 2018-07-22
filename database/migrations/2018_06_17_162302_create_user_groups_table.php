@@ -13,6 +13,7 @@ class CreateUserGroupsTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('user_groups');
         Schema::create('user_groups', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();

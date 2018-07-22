@@ -13,6 +13,7 @@ class CreateUserLogsTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('user_logs');
         Schema::create('user_logs', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();

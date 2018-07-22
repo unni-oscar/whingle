@@ -50,7 +50,7 @@
                             
                             <div class="form-group row">
                                 <label for="created_by" class="col-md-3" >Created by</label>
-                                <div class="col-sm-9"> {{profileForm.created_by}}
+                                <div class="col-sm-9"> 
                                     <dropdown cl="col-md-6 form-control" :options="whData.created_by" name='created_by' v-model="profileForm.created_by" validation="required|min_value:1|max_value:6" ></dropdown>
                                 </div>
                                 
@@ -66,8 +66,10 @@
                             </div>
                             <div class="form-group row">
                                 <label for="dob" class="col-md-3" >Date of Birth/Age</label>
-                                <div class="col-sm-9">
-                                    <input type="text" name="dob" class="col-sm-6" v-model="profileForm.dob" v-validate="'required'" />
+                                <div class="col-sm-9"> 
+                                    <!-- <input type="text" name="dob" class="col-sm-6" v-model="profileForm.dob" v-validate="'required|mature'" /> -->
+                                    <datepicker format="dd/MM/yyyy" :openDate="openDate"   name="dob" :disabledDates="disabledDates"  placeholder="Select Date"  v-model="profileForm.dob" v-validate="'required|mature'"></datepicker> {{age}}
+
                                     <p v-show="errors.has('dob')" class="text-danger"> {{ errors.first('dob') }}</p>
 
                                 </div>
@@ -75,7 +77,7 @@
                             </div>
                             <div class="form-group row">
                                 <label for="name" class="col-md-3" >Gender</label>
-                                <div class="col-sm-9">
+                                <div class="col-sm-9"> 
                                     <radiobutton v-for="channel in whData.gender" name="gender" :rLabel="channel.name" v-validate="'required|included:1,2'" :key="channel.id"  :rIndex="channel.id" :value="profileForm.gender" @change="setValue"></radiobutton>
                                     <p v-show="errors.has('gender')" class="text-danger"> {{ errors.first('gender') }}</p>
 
@@ -84,8 +86,8 @@
                             </div>
                              <div class="form-group row">
                                 <label for="name" class="col-md-3" >Marital Status</label>
-                                <div class="col-sm-9">
-                                    <radiobutton v-for="channel in whData.marital" name="marital_status" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" v-validate="'required'" :value="profileForm.marital_status" @change="setValue"></radiobutton>
+                                <div class="col-sm-9"> 
+                                    <radiobutton v-for="channel in whData.marital" name="marital_status" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" v-validate="'required|included:1,2,3'" :value="profileForm.marital_status" @change="setValue"></radiobutton>
                                    <p v-show="errors.has('marital_status')" class="text-danger"> {{ errors.first('marital_status') }}</p>
                                  </div>
                                 
@@ -121,7 +123,7 @@
                             </div>
                             <div class="form-group row">
                                 <label for="religion" class="col-md-3" >Religion</label>
-                                <div class="col-sm-9">
+                                <div class="col-sm-9"> 
                                     <dropdown  cl="col-md-6 form-control" :options="religions" name="religion"  v-model="selectedReligion" ></dropdown>
                                 </div>
                             </div>
@@ -159,6 +161,86 @@
                             </div>
                             <hr/>
                             <div class="form-group row">
+                                <label for="horoscope" class="col-md-3" >Education</label>
+                                <div class="col-sm-9">
+                                  <dropdown  cl="col-md-6 form-control" :options="whData.education_category" name="education"  v-model="profileForm.education" ></dropdown>
+                                </div>
+                                
+                            </div>
+                             <div class="form-group row">
+                                <label for="horoscope" class="col-md-3" >Education field</label>
+                                <div class="col-sm-9">
+                                  <dropdown  cl="col-md-6 form-control" :options="educations" name="education_in"  v-model="profileForm.education_in" ></dropdown>
+
+                                </div>
+                                
+                            </div>
+                            <div class="form-group row">
+                                <label for="horoscope" class="col-md-3" >Job</label>
+                                <div class="col-sm-9">
+                                  <dropdown  cl="col-md-6 form-control" :options="whData.job_category" name="job"  v-model="profileForm.job" ></dropdown>
+                                </div>
+                                
+                            </div>
+                            <div class="form-group row">
+                                <label for="horoscope" class="col-md-3" >Working as</label>
+                                <div class="col-sm-9">
+                                  <dropdown  cl="col-md-6 form-control" :options="jobs" name="job_as"  v-model="profileForm.job_as" ></dropdown>
+
+                                </div>
+                                
+                            </div>
+                            <div class="form-group row">
+                                <label for="income" class="col-md-3" >Yearly income</label>
+                                <div class="col-sm-9">
+                                  <dropdown  cl="col-md-6 form-control" :options="whData.income" name="income"  v-model="profileForm.income" ></dropdown>
+
+                                </div>
+                                
+                            </div>
+
+                            <hr/>
+                            <div class="form-group row">
+                                <label for="height" class="col-md-3" >Height</label>
+                                <div class="col-sm-9">
+                                  <dropdown  cl="col-md-6 form-control" :options="whData.height" name="height"  v-model="profileForm.height" ></dropdown>
+                                </div>
+                            </div>
+                             <div class="form-group row">
+                                <label for="weight" class="col-md-3" >Weight</label>
+                                <div class="col-sm-9">
+                                  <dropdown  cl="col-md-6 form-control" :options="whData.weight" name="weight"  v-model="profileForm.weight" ></dropdown>
+                                </div>
+                            </div>
+                             <div class="form-group row">
+                                <label for="build" class="col-md-3" >Build</label>
+                                <div class="col-sm-9">
+                                    <radiobutton v-for="channel in whData.build" name="build" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.build" @change="setValue"></radiobutton>
+                                </div>
+                                
+                            </div>
+                             <div class="form-group row">
+                                <label for="complexion" class="col-md-3" >Complexion</label>
+                                <div class="col-sm-9">
+                                    <radiobutton v-for="channel in whData.complexion" name="complexion" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.complexion" @change="setValue"></radiobutton>
+                                </div>
+                                
+                            </div>
+                             <div class="form-group row">
+                                <label for="blood_group" class="col-md-3" >Blood Group</label>
+                                <div class="col-sm-9">
+                                  <dropdown  cl="col-md-6 form-control" :options="whData.blood_group" name="blood_group"  v-model="profileForm.blood_group" ></dropdown>
+                                </div>
+                            </div>
+                             <div class="form-group row">
+                                <label for="disability" class="col-md-3" >Any disability?</label>
+                                <div class="col-sm-9">
+                                    <radiobutton v-for="channel in whData.yesNo" name="disability" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.disability" @change="setValue"></radiobutton>
+                                </div>
+                                
+                            </div>
+
+                            <div class="form-group row">
                                 <label for="diet" class="col-md-3" >Diet</label>
                                 <div class="col-sm-9">
                                     <radiobutton v-for="channel in whData.diet" name="diet" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.diet" @change="setValue"></radiobutton>
@@ -180,10 +262,88 @@
                                 
                             </div>
                             <hr/>
-                            <div class="form-group">
-                                <label for="email" >Email</label>
-                                <input type="email" class="form-control"/>
-                                <div class="invalid-feedback">Please provide a valid email.</div>
+                            <div class="form-group row">
+                                <label for="Father" class="col-md-3" >Father</label>
+                                <div class="col-sm-9"> 
+                                        <dropdown  cl="col-md-6 form-control" :options="whData.father" name="father"  v-model="profileForm.father" ></dropdown>
+                                </div>
+                                
+                            </div>
+                             <div class="form-group row">
+                                <label for="Mother" class="col-md-3" >Mother</label>
+                                <div class="col-sm-9"> 
+                                        <dropdown  cl="col-md-6 form-control" :options="whData.mother" name="mother"  v-model="profileForm.mother" ></dropdown>
+                                </div>
+                                
+                            </div>
+                           
+                           <div class="form-group row">
+                                <label class="col-sm-3">Siblings</label>
+                                <div class="col-sm-4"> 
+                                    <div class="col-sm-12"> Brothers
+                                        <dropdown  cl="col-md-6 form-control" :options="whData.bro_sis" name="brothers"  v-model="profileForm.brothers" ></dropdown>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="col-sm-12"> Brothers Married
+                                        <dropdown  cl="col-md-6 form-control" :options="whData.bro_sis" name="brothers_married"  v-model="profileForm.brothers_married" ></dropdown>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3"></label>
+                                <div class="col-sm-4"> 
+                                    <div class="col-sm-12"> Sisters
+                                        <dropdown  cl="col-md-6 form-control" :options="whData.bro_sis" name="sisters"  v-model="profileForm.sisters" ></dropdown>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4"> 
+                                    <div class="col-sm-12"> Sisters Married
+                                        <dropdown  cl="col-md-6 form-control" :options="whData.bro_sis" name="sisters_married"   v-model="profileForm.sisters_married"></dropdown>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="smoke" class="col-md-3" >Family Status</label>
+                                <div class="col-sm-9">
+                                    <radiobutton v-for="channel in whData.family_status" name="family_status" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.family_status" @change="setValue"></radiobutton>
+                                </div>
+                                
+                            </div>
+                            <div class="form-group row">
+                                <label for="smoke" class="col-md-3" >Family Type</label>
+                                <div class="col-sm-9">
+                                    <radiobutton v-for="channel in whData.family_type" name="family_type" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.family_type" @change="setValue"></radiobutton>
+                                </div>
+                                
+                            </div>
+                            <div class="form-group row">
+                                <label for="smoke" class="col-md-3" >Family Values</label>
+                                <div class="col-sm-9"> 
+                                    <radiobutton v-for="channel in whData.family_values" name="family_values" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" :value="profileForm.family_values" @change="setValue"></radiobutton>
+                                </div>
+                            </div>
+                            <hr/>
+                            <div class="form-group row">
+                                <label for="about" class="col-md-3" >Few words about this profile </label>
+                                <div class="col-sm-9">
+                                    <textarea name="about" rows="4" cols="50" v-model="profileForm.about" ></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="contact_number" class="col-md-3" >Contact number</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="contact_number" class="col-sm-6" v-model="profileForm.contact_number" v-validate="'required|numeric|max:15'" />
+                                    <p v-show="errors.has('contact_number')" class="text-danger"> {{ errors.first('contact_number') }}</p>
+
+                                </div>
+                                
+                            </div>
+                            <div class="form-group row">
+                                <label for="address" class="col-md-3" >Address </label>
+                                <div class="col-sm-9">
+                                    <textarea rows="3" cols="33" name="address" v-model="profileForm.address" ></textarea>
+                                </div>
                             </div>
                             <button type="submit" class="btn btn-info">Update profile</button>
 
@@ -342,15 +502,50 @@
     </div>
 </template>
 <script>
+var oldY = moment().subtract(18,  'year').format('YYYY')
+var showY = moment().subtract(22,  'year').format('YYYY')
+// subtracting 1 as the index start from 0
+var oldM = moment().subtract(18,  'year').format('MM') - 1
+var oldD = moment().subtract(18,  'year').format('DD')
 import Dropdown from '../elements/html/Dropdown'
 import Radiobutton from '../elements/html/RadioButton'
+import Datepicker from 'vuejs-datepicker'
+import moment from 'moment'
+
 export default {
     components: {
         'dropdown': Dropdown,
         'radiobutton': Radiobutton,
+         Datepicker
+    },
+    created() {
+      let self = this
+      // implementing additional validation
+      this.$validator.extend('mature', {
+          getMessage(field, val) {
+              return "You should be 18 years of age"
+          },
+          validate(value, field) {
+            return  moment(value).isBefore(moment().subtract(18, 'year') )
+          }
+        })
+
+        // this.$validator.extend('greater_than_equal_field',  (value, [otherValue]) =>{
+        //     console.log(value + ' ' + otherValue)
+        //     console.log(otherValue >= value)
+        //     return otherValue >= value
+        // },{
+        //     hasTarget: true
+        // })
+
     },
     data: function() {
         return {
+             disabledDates: {
+                from: new Date(oldY, oldM, oldD)
+            },
+            age: '',
+            openDate: new Date(showY , oldM),
             email: {},
             res: {},
             countries: {},
@@ -358,6 +553,8 @@ export default {
             cities:{},
             motherTongues:{},
             religions: {},
+            educations:{},
+            jobs:{},
             castes:{},
             selectedCountry: {},
             selectedState: {},
@@ -365,6 +562,7 @@ export default {
             whData:{},
             profileForm: {
                 name : '',
+                address: '',
                 dob : '',
                 gender : '',
                 about : '',
@@ -428,53 +626,56 @@ export default {
             this.marital = response.whData.marital
             this.yesNo = response.whData.yesNo
             this.countries = response.countries;
+            this.educations = response.educations;
+            this.jobs = response.jobs;
             this.religions = response.religions;
             this.motherTongues = response.motherTongues
-            this.selectedCountry = this.res.country_living
-            this.selectedState = this.res.state_living
-            this.selectedCity = this.res.city_living
-            this.selectedReligion = this.res.religion
+            this.selectedCountry = this.res.country_living || ''
+            this.selectedState = this.res.state_living || ''
+            this.selectedCity = this.res.city_living || ''
+            this.selectedReligion = this.res.religion || ''
             this.profileForm.name = this.res.name;
             this.profileForm.dob = this.res.dob;
             this.profileForm.gender = this.res.gender;
+            this.profileForm.address = this.res.address;
             this.profileForm.about = this.res.about;
             this.profileForm.blood_group = this.res.blood_group;
-            this.profileForm.brothers = this.res.brothers;
-            this.profileForm.brothers_married = this.res.brothers_married;
+            this.profileForm.brothers = this.res.brothers || ''
+            this.profileForm.brothers_married = this.res.brothers_married || ''
             this.profileForm.build = this.res.build;
-            this.profileForm.caste = this.res.caste;
+            this.profileForm.caste = this.res.caste || ''
             this.profileForm.city_living = this.res.city_living;
             this.profileForm.complexion = this.res.complexion;
-            this.profileForm.contact_number = this.res.contact_number;
+            this.profileForm.contact_number = this.res.contact_number || '' ;
             this.profileForm.country_living = this.res.country_living;
             this.profileForm.created_by = this.res.created_by;
             this.profileForm.diet = this.res.diet;
             this.profileForm.disability = this.res.disability;
             this.profileForm.drink = this.res.drink;
-            this.profileForm.education = this.res.education;
-            this.profileForm.education_in = this.res.education_in;
+            this.profileForm.education = this.res.education || ''
+            this.profileForm.education_in = this.res.education_in || ''
             this.profileForm.family_status = this.res.family_status;
             this.profileForm.family_type = this.res.family_type;
             this.profileForm.family_values = this.res.family_values;
-            this.profileForm.father = this.res.father;
+            this.profileForm.father = this.res.father || '' 
             this.profileForm.gender = this.res.gender;
             this.profileForm.has_children = this.res.has_children;
             this.profileForm.height = this.res.height;
             this.profileForm.horoscope = this.res.horoscope;
-            this.profileForm.income = this.res.income;
+            this.profileForm.income = this.res.income || ''
             this.profileForm.interests = this.res.interests;
-            this.profileForm.job = this.res.job;
-            this.profileForm.job_as = this.res.job_as;
+            this.profileForm.job = this.res.job || '';
+            this.profileForm.job_as = this.res.job_as || '';
             this.profileForm.manglik = this.res.manglik;
             this.profileForm.marital_status = this.res.marital_status;
-            this.profileForm.moon_sign = this.res.moon_sign;
-            this.profileForm.mother = this.res.mother;
-            this.profileForm.mother_tongue_id = this.res.mother_tongue_id;
-            this.profileForm.religion = this.res.religion;
-            this.profileForm.sisters = this.res.sisters;
-            this.profileForm.sisters_married = this.res.sisters_married;
+            this.profileForm.moon_sign = this.res.moon_sign || ''
+            this.profileForm.mother = this.res.mother || ''
+            this.profileForm.mother_tongue_id = this.res.mother_tongue_id || ''
+            this.profileForm.religion = this.res.religion || ''
+            this.profileForm.sisters = this.res.sisters || ''
+            this.profileForm.sisters_married = this.res.sisters_married || ''
             this.profileForm.smoke = this.res.smoke;
-            this.profileForm.star = this.res.star;
+            this.profileForm.star = this.res.star || ''
             this.profileForm.state_living = this.res.state_living;
             this.profileForm.weight = this.res.weight;
         });
@@ -517,24 +718,34 @@ export default {
             }
         },
         setValue: function (obj) {      
-            this.profileForm[obj.name] = obj.rIndex
+            this.profileForm[obj.name] = obj.value
         },
          validateBeforeSubmit () {
+            var vm = this
             this.$validator.validateAll().then((result) => {                
                 if(result) {
                     axios.post('/api/user/profile', this.profileForm).then(response =>  {
+                        //this.$router.push('/user/profile') 
                         this.$notify({
                             type: 'success',
                             title: 'Success',
-                            text: 'Profile updated successfully'
+                            text: response.data.message
                         });
-                        this.$router.push('/user/profile') 
+                        
                     }).catch(error => {
-                        this.$notify({
-                            type: 'error',
-                            title: 'Error',
-                            text: error.response.data.message
-                        });
+                        $.each(error.response.data.message, function(key, message) {
+                            var field = vm.$validator.fields.find({ name: field});
+                            vm.$validator.errors.add({
+                            id: field.id,
+                            field: key,
+                            msg: message[0],
+                            });
+                        })
+                        // this.$notify({
+                        //     type: 'error',
+                        //     title: 'Error',
+                        //     text: error.response.data.message
+                        // });
                     });
                 } else {
                 }
@@ -543,23 +754,26 @@ export default {
     },
     watch: {
         selectedCountry: function( ) {
-            this.$notify({
-            type: 'success',
-            title: 'Important message',
-            text: 'Hello user! This is a notification!'
-        });
+            // this.$notify({
+            //     type: 'success',
+            //     title: 'Important message',
+            //     text: 'Hello user! This is a notification!'
+            // });
             this.getStates()
             this.profileForm.country_living = this.selectedCountry
-            this.selectedState = this.res.state_living
+            this.selectedState = this.res.state_living || ''
+            this.cities = {} 
         },
         selectedState: function( ) {
             this.getCities()
+            this.profileForm.city_living = this.res.city_living || ''
             this.profileForm.state_living = this.selectedState
-            //this.selectedCity = this.res.city_living
+            // this.selectedCity = this.res.city_living | ''
         },
         selectedReligion: function( ) {
             this.getCastes()
             this.profileForm.religion = this.selectedReligion
+            this.profileForm.caste = this.res.caste || ''
         },
     }
     // beforeCreate () {

@@ -13,8 +13,10 @@ class CreateEducationTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('education');
         Schema::create('education', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
             $table->timestamps();
         });
     }

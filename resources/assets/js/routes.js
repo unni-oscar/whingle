@@ -27,6 +27,23 @@ let routes = [
         props: { bcName: "About" }
     },
     {
+        path: '/search',
+        component: require(pgPath + 'Search'),
+        meta: {
+          requiresAuth: false
+        },
+        props: { bcName: "Search" },
+        children: [
+            {
+                path: '',
+                name: 'Search',
+                components: {
+                    mainarea: require(elPath + 'Search'),
+                }
+            }
+        ]
+    },
+    {
         path: '/packages',
         name: 'Packages',
         component: require(pgPath + 'Packages'),
@@ -54,7 +71,6 @@ let routes = [
     {
         path: '/user',
        // redirect: '/user/dashboard',
-        name: 'Dashboard',
         components: {
             default: require(pgPath + 'Dashboard')
         },
@@ -65,7 +81,7 @@ let routes = [
         children: [
             {
                 path: '',
-                name: 'UserIndex',
+                name: 'Dashboard',
                 components: {
                     mainarea: require(elPath + 'UserIndex'),
                 }
@@ -93,7 +109,7 @@ let routes = [
             },
             {
                 path: 'search',
-                name: 'Search',
+                name: 'UserSearch',
                 components: {
                     mainarea: require(elPath + 'Search'),
                 }

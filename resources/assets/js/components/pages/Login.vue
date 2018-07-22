@@ -5,9 +5,9 @@
 <h1>Login</h1>
 <form @submit.prevent="validateBeforeSubmit" autocomplete="off" >
      <p class="text-danger" v-if="isAuthError">{{ isAuthError }}</p>
-     <p class="text-danger" v-if="$route.query.redirect">
+     <!-- <p class="text-danger" v-if="$route.query.redirect">
       You need to login first.
-    </p>
+    </p> -->
   <!-- <div class="form-group">
     <label for="Name-label">Name</label>
     <input type="name" class="form-control" id="Name-label" placeholder="Name">
@@ -32,7 +32,7 @@ export default {
     data () {
         return {
             loginForm: { 
-                email: 'unnikrishnan@gmail.com',
+                email: 'unni@unni.com',
                 password: 'secret'
             },
             authError: ''

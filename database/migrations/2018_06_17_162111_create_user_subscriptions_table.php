@@ -13,6 +13,7 @@ class CreateUserSubscriptionsTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('user_subscriptions');
         Schema::create('user_subscriptions', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();

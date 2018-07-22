@@ -13,6 +13,7 @@ class CreateCastesTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('castes');
         Schema::create('castes', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('religion_id')->unsigned();

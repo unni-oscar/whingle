@@ -13,6 +13,7 @@ class CreateBlacklistedProfilesTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('blacklisted_profiles');
         Schema::create('blacklisted_profiles', function (Blueprint $table) {
             $table->uuid('id');
             $table->primary('id');

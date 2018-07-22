@@ -43,7 +43,7 @@
                     <div class="form-group row">
                         <label for="name" class="col-md-3" >Gender</label>
                         <div class="col-sm-9">
-                            <radiobutton v-for="channel in whData.gender" name="gender" :rLabel="channel.name" :key="channel.id" v-model="profileForm.gender"   :rIndex="channel.id"  v-validate="'required'" @change="setValue" ></radiobutton>
+                            <radiobutton v-for="channel in whData.gender" name="gender" :rLabel="channel.name" :key="channel.id" v-model="profileForm.gender"   :rIndex="channel.id"  v-validate="'required|included:1,2'" @change="setValue" ></radiobutton>
                             <p v-show="errors.has('gender')" class="text-danger"> {{ errors.first('gender') }}</p>
                           
                         </div>
@@ -52,7 +52,7 @@
                       <div class="form-group row">
                         <label for="name" class="col-md-3" >Marital Status</label>
                         <div class="col-sm-9">
-                            <radiobutton v-for="channel in whData.marital" name="marital_status" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" v-model="profileForm.marital_status"   v-validate="'required'" @change="setValue"></radiobutton>
+                            <radiobutton v-for="channel in whData.marital" name="marital_status" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" v-model="profileForm.marital_status"   v-validate="'required|included:1,2,3'" @change="setValue"></radiobutton>
                             <p v-show="errors.has('marital_status')" class="text-danger"> {{ errors.first('marital_status') }}</p>
                         </div>
                         
@@ -70,7 +70,7 @@
                     <div class="form-group row">
                         <label for="name" class="col-md-3" >Password</label>
                         <div class="col-md-9">
-                            <input type="password" name="password" class="col-sm-6" v-model="profileForm.password" v-validate="'required'"  @change="setValue" />
+                            <input type="password" name="password" class="col-sm-6" v-model="profileForm.password" v-validate="'required|min:5|max:30'"  @change="setValue" />
                             <p v-show="errors.has('password')" class="text-danger"> {{ errors.first('password') }}</p>
                             
                         </div>

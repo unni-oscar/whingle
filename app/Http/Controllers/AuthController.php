@@ -7,6 +7,8 @@ use App\Http\Requests\ProfileRequest;
 use App\Models\Profile;
 use App\Models\User;
 use App\Models\Country;
+use App\Models\Education;
+use App\Models\Job;
 use App\Notifications\UserActivate;
 use Illuminate\Http\Request;
 use Validator;
@@ -17,6 +19,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Webpatser\Uuid\Uuid;
 use App\Models\Religion;
 use App\Models\MotherTongue;
+use Carbon\Carbon;
 
 class AuthController extends Controller
 {
@@ -42,9 +45,9 @@ class AuthController extends Controller
 
             $profile = new Profile();
             $profile->name = $request->name;
-            $profile->user_id = $user->id;
+            $profile->user_id = $user->id;  
             $profile->created_by = $request->created_by;
-            $profile->dob = now();
+            $profile->dob = Carbon::parse($request->dob)->toDateTimeString();
             $profile->marital_status = $request->marital_status;
             $profile->gender = $request->gender;
             $profile->save();
@@ -60,7 +63,7 @@ class AuthController extends Controller
             DB::rollback();
             return response()->json([
                 'success' => false,
-                'message' => __('messages.registration-failed'),
+                'message' => $e->getMessage() //__('messages.registration-failed'),
             ], 400);
         }
     }
@@ -145,39 +148,34 @@ class AuthController extends Controller
         $profile = $user->Profile;
         $keyArr = array('created_by', 'gender', 'marital', 'yesNo', 'diet', 'drink', 'smoke', 'father','mother',
             'horoscope', 'manglik', 'star', 'moon_sign', 'family_type', 'family_values', 'family_status',
-            'bro_sis');
+            'bro_sis', 'job_category', 'education_category', 'income', 'height', 'weight', 'build', 'complexion', 'blood_group');
         $whData = wh_arrayToObject($keyArr);
         $countries = Country::select('id', 'name')->orderBy('name', 'asc')->get(); 
+        $educations = Education::select('id', 'name')->orderBy('name', 'asc')->get();
+        $jobs = Job::select('id', 'name')->orderBy('name', 'asc')->get();
         $religions = Religion::select('id', 'name')->orderBy('name', 'asc')->get(); 
         $motherTongues = MotherTongue::select('id', 'name')->orderBy('name', 'asc')->get();      
-        return response()->json(compact('user','profile', 'countries',  'whData', 'motherTongues', 'religions'));
+        return response()->json(compact('profile', 'countries',  'whData', 'motherTongues', 'religions', 'educations', 'jobs'));
     }
 
-    public function updateProfile(request $request) {
-        // TODO : move this to request 
-        $validation = Validator::make($request->all(), [
-            'name' => 'required',
-            'gender' => 'bail|required|in:1,2',
-            'created_by' => 'required|gt:0|lt:7'
-           
-        ],[
-            'name.required' => 'Name required'
-        ]);
-
-        if($validation->fails())
-            return response()->json([
-                'status' => 'error',
-                'message' => $validation->messages()->first()
-            ], 422);
-        
+    public function updateProfile(ProfileRequest $request) {
+      
+        $data = $request->all();
+        $data['dob'] = Carbon::parse($request->dob)->toDateTimeString();
         $user = JWTAuth::parseToken()->authenticate();
-        $user->profile->name = $request->name;
-        $user->profile->save();
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Profile updated successfully'
-        ], 200);
-         
+        // $Term = User::with('Profile')->find($user->id);
+        try {
+            $user->profile->update($data);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Profile updated successfully'
+            ], 200);
+        }  catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage() //'Profile updated Error'
+            ], 400);
+        }     
     }
 
     public function index() {

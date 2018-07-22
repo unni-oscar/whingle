@@ -13,6 +13,7 @@ class CreateCouponsTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('coupons');
         Schema::create('coupons', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');

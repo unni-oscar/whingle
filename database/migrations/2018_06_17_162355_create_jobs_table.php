@@ -13,6 +13,7 @@ class CreateJobsTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('jobs');
         Schema::create('jobs', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');

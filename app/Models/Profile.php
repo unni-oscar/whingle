@@ -7,6 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Profile extends Model
 {
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    // protected $fillable = ['name', 'created_by', 'gender', 'has_children', 'dob'];
+    protected $guarded = ['id', 'user_id'];
+
+
     use Uuids;
 
     /**
@@ -39,5 +48,14 @@ class Profile extends Model
     public function mother_tongue()
     {
         return $this->belongsTo('App\Models\MotherTongue');
+    }
+
+    public function education()
+    {
+        return $this->belongsTo('App\Models\Education');
+    }
+    public function job()
+    {
+        return $this->belongsTo('App\Models\Job');
     }
 }

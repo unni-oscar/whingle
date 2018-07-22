@@ -35,7 +35,7 @@ return [
         'Female'    => 2
     ],
     'yesNo' => [
-        'Yes'      => 1,
+        'Yes'   => 1,
         'No'    => 0
     ],
     'marital' => [
@@ -132,5 +132,55 @@ return [
         9 => 9,
         10 => 10
     ],
-
+    'education_category' => [
+        'Masteres'    => 1,
+        'Bachelors'   => 2,
+        'CA' => 3,
+        '+2' => 4,
+        'SSLC' => 5
+    ],
+    'job_category' => [
+        'Public'    => 1,
+        'Private'   => 2,
+        'Business' => 3
+    ],
+    'income' => [
+        'Below 1 lakh' => 1,
+        '1 lakh to 5 lakhs' => 2,
+        '5 lakh to 10 lakh' => 3,
+        '10 lakh to 15 lakh' => 4,
+        '15 lakh to 25 lakhs' => 5,
+        '25 lakhs to 50  lakhs' => 6,
+        '50 lakhs to 1 crore' => 7,
+        'Above 1 crore' => 8
+    ],
+    'height' => [
+        '150 cms / 5 ft' => 150,
+        '152 cms / 5.1 ft' => 152,
+        '155 cms / 5.2 ft' => 155
+    ],
+    'weight' => [
+        '40 kgs' => 40,
+        '41 kgs' => 41,
+        '42 kgs' => 42
+    ],
+    'build' => [
+        'Slim' => 1,
+        'Athletic' => 2,
+        'Fat' => 3
+    ],
+    'complexion' => [
+        'Dark' => 1,
+        'wheatish' => 2,
+        'Fair' => 3
+    ],
+    'blood_group' => [
+        'A+' => 1,
+        'A-' => 2,
+        'B+' => 3,
+        'B-' => 4,
+        'AB+' => 5,
+        'AB-' => 6
+    ]
+ 
 ];

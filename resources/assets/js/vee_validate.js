@@ -18,11 +18,18 @@ Vue.use(VeeValidate,{
                 },
                 gender: {
                     required: 'Please select gender',
-                    included: 'Please select gender'
+                    included: 'Please select a valid gender'
                 },
                 marital_status: {
-                    required: 'Please select marital status'
+                    required: 'Please select marital status',
+                    included: 'Please select a valid marital status'
                 },
+                'contact_number': {
+                    'required' : 'The contact number field is required.',
+                    'numeric' : 'The contact number field may only contain numeric characters.',
+                    'max' : 'The contact number field may not be greater than 15 characters.'
+
+                }
             }
         }
     }

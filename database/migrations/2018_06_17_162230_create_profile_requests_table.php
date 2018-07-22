@@ -13,6 +13,7 @@ class CreateProfileRequestsTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('profile_requests');
         Schema::create('profile_requests', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();

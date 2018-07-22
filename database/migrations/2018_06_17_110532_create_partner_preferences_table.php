@@ -13,6 +13,7 @@ class CreatePartnerPreferencesTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('partner_preferences');
         Schema::create('partner_preferences', function (Blueprint $table) {
             $table->uuid('id');
             $table->primary('id');

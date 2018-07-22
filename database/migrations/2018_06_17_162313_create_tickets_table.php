@@ -13,6 +13,7 @@ class CreateTicketsTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('tickets');
         Schema::create('tickets', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();

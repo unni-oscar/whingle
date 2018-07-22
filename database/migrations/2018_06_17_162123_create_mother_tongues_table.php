@@ -13,6 +13,7 @@ class CreateMotherTonguesTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('mother_tongues');
         Schema::create('mother_tongues', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
