@@ -22,8 +22,14 @@ try {
 
 window.axios = require('axios');
 
+import Form from './components/services/form';
+window.Form = Form;
+
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('auth_token');
+const authToken = localStorage.getItem('user-token');
+if (authToken) {
+    window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('auth_token');
+}
 /**
  * Next we will register the CSRF Token as a common header with Axios so that
  * all outgoing HTTP requests automatically have it attached. This is just

@@ -27,6 +27,14 @@ let routes = [
         props: { bcName: "About" }
     },
     {
+        path: '/show/:id',
+        name: 'ShowProfile',
+        component: require(pgPath + 'ShowProfile'),
+        meta: {
+          requiresAuth: false
+        }
+    },
+    {
         path: '/search',
         component: require(pgPath + 'Search'),
         meta: {

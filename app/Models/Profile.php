@@ -32,17 +32,17 @@ class Profile extends Model
 
     public function country()
     {
-        return $this->belongsTo('App\Models\Country');
+        return $this->belongsTo('App\Models\Country', 'country_living', 'id');
     }
 
     public function state()
     {
-        return $this->belongsTo('App\Models\State');
+        return $this->belongsTo('App\Models\State', 'state_living', 'id');
     }
 
     public function city()
     {
-        return $this->belongsTo('App\Models\City');
+        return $this->belongsTo('App\Models\City', 'city_living', 'id');
     }
 
     public function mother_tongue()

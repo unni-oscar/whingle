@@ -21,12 +21,13 @@ use Illuminate\Http\Request;
 
 Route::get('register', 'AuthController@register');
 Route::post('register', 'AuthController@store');
-Route::get('user/search', 'UserController@search');
-Route::post('user/search', 'UserController@searchProfiles');
+Route::get('user/search', 'ProfileController@search');
+Route::post('user/search', 'ProfileController@searchProfiles');
 Route::post('login', 'AuthController@login');
 Route::get('states/{country}', 'CountryController@states');
 Route::get('cities/{state}', 'StateController@cities');
 Route::get('castes/{religion}', 'ReligionController@castes');
+Route::get('profile/{id}', 'ProfileController@show');
 
 //Route::group(['prefix' => 'auth'], function () {
 //   // Route::post('/login','AuthController@authenticate');

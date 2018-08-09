@@ -41,6 +41,18 @@ function wh_arrayToObject($arr) {
     }
     return response()->json($whData)->getData();
 }
+function wh_arrayFlip($arr) {
+    $whData = array();
+    
+    foreach($arr as $key) {
+        $data = array();
+        foreach( config( wh_cFile . $key) as $k => $v) {
+            array_push($data, ['id' => $v, 'name' => $k]);
+        }
+       $whData[$key] = $data;
+    }
+    return response()->json($whData)->getData();
+}
 function wh_getAgeList() {
     $data = array();
     for ($i = 18; $i <= 70; $i++) {

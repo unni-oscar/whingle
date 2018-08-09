@@ -69,7 +69,7 @@ class CreateProfilesTable extends Migration
             $table->integer('state_living')->nullable();
             $table->integer('city_living')->nullable();
             $table->string('address')->nullable();
-            $table->integer('contact_number')->nullable();
+            $table->integer('contact_number', 15)->nullable();
             
             $table->timestamps();
 
@@ -77,6 +77,11 @@ class CreateProfilesTable extends Migration
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
+
+            $table->foreign('country_living')
+                ->references('id')
+                ->on('countries')
+                ->onDelete('restrict');
         });
     }
 

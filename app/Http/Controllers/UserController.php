@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use JWTAuth;
+use App\Models\Profile;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
 
@@ -20,12 +21,14 @@ class UserController extends Controller
 
     public function searchProfiles(Request $request) {
         // try {
-        //     JWTAuth::parseToken()->authenticate();
+        //    JWTAuth::parseToken()->authenticate();
         // } catch(Exception $e) {
         //     print_r($e->getMessage());
         // }
-        
-        print_r($request->all());
+     
+        $profiles = Profile::where('gender', $request->gender)->get();
+        return response()->json(compact('profiles'));
+
         die;
     }
 }

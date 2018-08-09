@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class State extends Model
 {
+    protected $visible = ['id', 'name'];
+
     public function country()
     {
         return $this->belongsTo('App\Models\Country');
